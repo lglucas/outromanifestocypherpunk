@@ -1,0 +1,9 @@
+---
+export const prerender = true;
+import Base from '../layouts/Base.astro';
+import { t } from '../i18n/ui';
+---
+<Base title={t('pt', 'nav.book')}>
+  <h1 class="text-3xl font-bold">{t('pt', 'nav.book')}</h1>
+  <p class="mt-4 text-neutral-400">{t('pt', 'wip')}</p>
+</Base>

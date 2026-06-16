@@ -1,0 +1,10 @@
+---
+export const prerender = true;
+import Base from '../../layouts/Base.astro';
+import { t } from '../../i18n/ui';
+---
+<Base>
+  <h1 class="text-4xl font-bold tracking-tight">{t('en', 'site.title')}</h1>
+  <p class="mt-4 text-lg text-neutral-300">{t('en', 'site.tagline')}</p>
+  <p class="mt-6 text-sm text-neutral-500">{t('en', 'wip')}</p>
+</Base>

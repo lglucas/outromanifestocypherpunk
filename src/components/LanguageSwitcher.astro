@@ -1,0 +1,13 @@
+---
+import { languages, type Lang } from '../i18n/ui';
+const current = (Astro.currentLocale ?? 'pt') as Lang;
+const base: Record<Lang, string> = { pt: '/', en: '/en', de: '/de' };
+---
+<nav class="flex gap-3 font-mono text-xs">
+  {Object.entries(languages).map(([code, label]) => (
+    <a href={base[code as Lang]}
+       class={code === current ? 'text-neutral-100 underline' : 'text-neutral-500 hover:text-neutral-300'}>
+      {label}
+    </a>
+  ))}
+</nav>

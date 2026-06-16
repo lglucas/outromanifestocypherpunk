@@ -1,0 +1,13 @@
+---
+export const prerender = true;
+import Base from '../layouts/Base.astro';
+import { t } from '../i18n/ui';
+---
+<Base>
+  <h1 class="text-4xl font-bold tracking-tight">{t('pt', 'site.title')}</h1>
+  <p class="mt-4 text-lg text-neutral-300">{t('pt', 'site.tagline')}</p>
+  <div class="mt-8 flex gap-4">
+    <a href="/download" class="rounded bg-neutral-100 px-5 py-2 text-neutral-950 font-medium">{t('pt', 'cta.download')}</a>
+    <a href="#" class="rounded border border-neutral-700 px-5 py-2">{t('pt', 'cta.amazon')}</a>
+  </div>
+</Base>
