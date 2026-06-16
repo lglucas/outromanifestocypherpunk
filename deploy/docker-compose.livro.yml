@@ -1,0 +1,33 @@
+# Compose de producao do site do livro. Isolado do boringco; so compartilha a rede do Listmonk.
+services:
+  livro-web:
+    image: ${IMAGE_REF:-ghcr.io/lglucas/outromanifestocypherpunk:latest}
+    restart: always
+    env_file: /opt/livro/.env
+    environment:
+      - TZ=America/Sao_Paulo
+    expose:
+      - "3000"
+    networks:
+      - default
+      - shared-listmonk
+    healthcheck:
+      test: ["CMD", "node", "-e", "fetch('http://localhost:3000/').then(r=>process.exit(r.ok?0:1)).catch(()=>process.exit(1))"]
+      interval: 30s
+      timeout: 5s
+      retries: 3
+      start_period: 30s
+
+  cloudflared:
+    image: cloudflare/cloudflared:latest
+    restart: always
+    command: tunnel --no-autoupdate run
+    environment:
+      - TUNNEL_TOKEN=${CLOUDFLARE_TUNNEL_TOKEN}
+    depends_on:
+      - livro-web
+
+networks:
+  shared-listmonk:
+    external: true
+    name: shared-listmonk
