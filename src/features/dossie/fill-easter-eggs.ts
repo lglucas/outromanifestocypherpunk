@@ -11,6 +11,8 @@ export function fillEasterEggs(doc: Document = document): void {
     maquina: f.maquina,
     gpu: s?.fp.gpu ?? '—',
     ip: s?.server.ip ?? '—',
+    cidade: s?.server.geo.city ?? '—',
+    navegador: s?.fp.browser ?? '—',
   };
   for (const el of doc.querySelectorAll<HTMLElement>('[data-egg]')) {
     const key = el.dataset.egg;

@@ -26,7 +26,7 @@ const { title = 'O Outro Manifesto Cypherpunk', current = '/' } = Astro.props;
       <div class="classbar-in">
         <span class="blink-dot" aria-hidden="true"></span>
         <span class="cls">CLASSIFICADO · NÍVEL VERMELHO</span>
-        <span class="prot">PROTOCOLO AÇO-2.6</span>
+        <span class="prot">SETOR: <span data-egg="cidade">—</span></span>
         <span class="spacer"></span>
         <span class="prot" data-clock>--:--:--</span>
       </div>
@@ -48,6 +48,7 @@ const { title = 'O Outro Manifesto Cypherpunk', current = '/' } = Astro.props;
 
       <footer class="protocol">
         <div class="proto-no">PROTOCOLO 0001 · CC BY-SA 4.0</div>
+        <div class="proto-no">última varredura · operadora <span data-egg="operadora">—</span> · gpu <span data-egg="gpu">—</span></div>
         <div class="ghost">não há para onde correr</div>
         <div class="authorline">
           Lucas Lopes Galvão · <a href="/autor">o informante</a> ·
@@ -68,7 +69,9 @@ const { title = 'O Outro Manifesto Cypherpunk', current = '/' } = Astro.props;
     </script>
     <script>
       import { initRedaction } from '../features/dossie/redaction';
+      import { fillEasterEggs } from '../features/dossie/fill-easter-eggs';
       initRedaction();
+      fillEasterEggs();
     </script>
   </body>
 </html>
