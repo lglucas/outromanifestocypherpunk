@@ -1,9 +1,13 @@
 ---
-import HudBars from '../components/HudBars.astro';
-import ReopenTerminal from '../components/ReopenTerminal.astro';
 import '../styles/global.css';
-interface Props { title?: string }
-const { title = 'O Outro Manifesto Cypherpunk' } = Astro.props;
+import Atmosphere from '../components/dossie/Atmosphere.astro';
+import FolderTabs from '../components/dossie/FolderTabs.astro';
+import Camera from '../components/dossie/svg/Camera.astro';
+import Crosshair from '../components/dossie/svg/Crosshair.astro';
+import AnarchistA from '../components/dossie/svg/AnarchistA.astro';
+import ReopenTerminal from '../components/ReopenTerminal.astro';
+interface Props { title?: string; current?: string }
+const { title = 'O Outro Manifesto Cypherpunk', current = '/' } = Astro.props;
 ---
 <!doctype html>
 <html lang="pt">
@@ -13,20 +17,58 @@ const { title = 'O Outro Manifesto Cypherpunk' } = Astro.props;
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <title>{title}</title>
   </head>
-  <body class="dossie-body">
-    <HudBars />
-    <main class="dossie-main"><slot /></main>
-    <div class="atmos" aria-hidden="true"></div>
+  <body class="dossie-body paper-grain">
+    <Atmosphere />
+    <Crosshair class="motif m-cross" />
+    <AnarchistA class="motif m-anar" />
+
+    <div class="classbar">
+      <div class="classbar-in">
+        <span class="blink-dot" aria-hidden="true"></span>
+        <span class="cls">CLASSIFICADO · NÍVEL VERMELHO</span>
+        <span class="prot">PROTOCOLO AÇO-2.6</span>
+        <span class="spacer"></span>
+        <span class="prot" data-clock>--:--:--</span>
+      </div>
+    </div>
+
+    <div class="wrap">
+      <header class="dochead">
+        <div class="docrow">
+          <div class="agency">
+            DEPARTAMENTO DE INFERÊNCIA TOTAL
+            <small>DIVISÃO DE ANÁLISE COMPORTAMENTAL</small>
+          </div>
+          <Camera />
+        </div>
+        <FolderTabs current={current} />
+      </header>
+
+      <main><slot /></main>
+
+      <footer class="protocol">
+        <div class="proto-no">PROTOCOLO 0001 · CC BY-SA 4.0</div>
+        <div class="ghost">não há para onde correr</div>
+        <div class="authorline">
+          Lucas Lopes Galvão · <a href="/autor">o informante</a> ·
+          <a href="https://outromanifesto.space">outromanifesto.space</a>
+        </div>
+      </footer>
+    </div>
+
     <ReopenTerminal />
+
+    <script>
+      const clock = document.querySelector('[data-clock]');
+      if (clock) {
+        const tick = () => { clock.textContent = new Date().toLocaleTimeString('pt-BR'); };
+        tick();
+        setInterval(tick, 1000);
+      }
+    </script>
   </body>
 </html>
 
 <style is:global>
-  .dossie-body { background: var(--vazio); color: var(--osso); font-family: var(--font-corpo);
-    margin: 0; min-height: 100vh; }
-  .dossie-main { max-width: 960px; margin: 0 auto; padding: 56px 20px 56px; position: relative; z-index: 1; }
-  .atmos { position: fixed; inset: 0; pointer-events: none; z-index: 30;
-    background:
-      repeating-linear-gradient(0deg, rgba(0,0,0,.15) 0 1px, transparent 1px 3px),
-      radial-gradient(ellipse at center, transparent 55%, rgba(0,0,0,.55) 100%); }
+  .dossie-body { margin: 0; min-height: 100vh; }
 </style>

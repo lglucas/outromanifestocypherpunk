@@ -2,30 +2,36 @@
 import DossieFrame from '../layouts/DossieFrame.astro';
 import Terminal from '../components/Terminal.astro';
 import SubjectCard from '../components/SubjectCard.astro';
+import Stamp from '../components/dossie/Stamp.astro';
 export const prerender = false;
 const { showTerminal } = Astro.locals;
 ---
 {showTerminal && <Terminal />}
-<DossieFrame title="O Outro Manifesto Cypherpunk">
+<DossieFrame title="ARQUIVO Nº 0001 — VOCÊ" current="/">
+  <h1 class="arquivo-no">ARQUIVO Nº 0001 — <span class="you" data-egg="nome">VOCÊ</span></h1>
+  <p class="docsub">O Outro Manifesto Cypherpunk — por que a tecnologia que prometia libertar virou braço do controle.</p>
+
+  <div class="folha-tag">Ficha do sujeito</div>
   <SubjectCard />
-  <p class="tese">Você deixou de ser cidadão. Virou usuário.</p>
-  <nav class="anexos">
-    <a href="/livro">› ANEXO A · O DOCUMENTO</a>
-    <a href="/autor">› ANEXO B · O INFORMANTE</a>
-    <a href="/download">› ANEXO C · LIBERAÇÃO</a>
-  </nav>
-  <div class="ctas">
-    <a class="cta" href="/download">Baixar grátis</a>
-    <a class="cta ghost" href="#">Comprar na Amazon</a>
+
+  <p class="tese-home">Você deixou de ser cidadão. <span style="color:var(--brasa2)">Virou usuário.</span></p>
+
+  <div class="stamp-row">
+    <Stamp big rot={1}>DON'T TRUST, VERIFY</Stamp>
+    <Stamp big tone="cold" rot={2}>CODE IS LAW</Stamp>
+    <Stamp big rot={3}>PRIVACY IS NORMAL</Stamp>
+    <Stamp big tone="red" rot={4}>FREEDOM OVER CONVENIENCE</Stamp>
   </div>
+
+  <div class="cta-stamps">
+    <a class="cta-stamp cta-free" href="/download"><span class="ink"></span>Baixar grátis</a>
+    <a class="cta-stamp cta-buy" href="#"><span class="ink"></span>Comprar na Amazon</a>
+  </div>
+
+  <p class="hint">abra os anexos · <span>desclassifique o que puder</span></p>
 </DossieFrame>
 
 <style>
-  .tese { font-family: var(--font-display); font-size: clamp(22px, 4vw, 40px); color: var(--osso);
-    margin: 28px 0; line-height: 1.15; }
-  .anexos { display: flex; flex-direction: column; gap: 8px; font-family: var(--font-mono); }
-  .anexos a, .cta { color: var(--brasa-claro); text-decoration: none; }
-  .ctas { display: flex; gap: 12px; margin-top: 28px; flex-wrap: wrap; }
-  .cta { border: 1px solid var(--brasa); padding: 10px 18px; font-family: var(--font-display); }
-  .cta.ghost { border-color: var(--aco); color: var(--aco-claro); }
+  .tese-home { font-family: var(--font-display); font-size: clamp(24px, 4.5vw, 44px);
+    line-height: 1.1; margin: 32px 0 8px; text-transform: uppercase; letter-spacing: .01em; color: var(--osso); }
 </style>

@@ -1,0 +1,9 @@
+---
+// "A" anarquista (motif). Port de 03-dossie.html. Aceita classe via prop.
+interface Props { class?: string }
+const { class: cls = '' } = Astro.props;
+---
+<svg class={cls} viewBox="0 0 100 100" fill="none" stroke="currentColor" stroke-width="6" aria-hidden="true">
+  <path d="M50 12 L18 86 L82 86 Z"></path>
+  <line x1="10" y1="58" x2="90" y2="58"></line>
+</svg>
