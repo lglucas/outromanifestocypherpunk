@@ -1,9 +1,63 @@
 ---
-export const prerender = true;
-import Base from '../layouts/Base.astro';
-import { t } from '../i18n/ui';
+import DossieFrame from '../layouts/DossieFrame.astro';
+import HoodedFigure from '../components/dossie/svg/HoodedFigure.astro';
+import RedactBlock from '../components/dossie/RedactBlock.astro';
+import Redact from '../components/dossie/Redact.astro';
+import Stamp from '../components/dossie/Stamp.astro';
+export const prerender = false;
 ---
-<Base title={t('pt', 'nav.author')}>
-  <h1 class="text-3xl font-bold">{t('pt', 'nav.author')}</h1>
-  <p class="mt-4 text-neutral-400">{t('pt', 'wip')}</p>
-</Base>
+<DossieFrame title="ANEXO B · O INFORMANTE" current="/autor">
+  <div class="folha-tag">Anexo B · fonte do vazamento</div>
+  <h2 class="block">O <span class="accent">INFORMANTE</span></h2>
+  <p class="docsub" style="max-width:620px;">
+    Quem te vigiou nos primeiros segundos não é um personagem inventado. É alguém que fez isso
+    para viver — e cansou. As provas deste arquivo vêm dele.
+  </p>
+
+  <div class="annexB">
+    <div>
+      <div class="mug">
+        <HoodedFigure />
+        <span class="corner c1"></span><span class="corner c2"></span>
+        <span class="corner c3"></span><span class="corner c4"></span>
+        <span class="scanid"></span>
+      </div>
+      <div class="mug-cap">desertor · cooperando</div>
+    </div>
+    <div>
+      <div class="field"><span class="k">Identidade</span><span class="v big">Lucas Lopes Galvão</span></div>
+      <div class="field"><span class="k">Credenciais</span><span class="v">OAB/RS 106.575 · 15+ anos de advocacia · 30 anos escrevendo código · mestre pela UFRGS</span></div>
+      <div class="field"><span class="k">Tese de mestrado (2017–2019)</span><span class="v">"Privacidade na Blockchain" — defendeu a privacidade como direito fundamental.</span></div>
+      <div class="field"><span class="k">Depois</span><span class="v">Fundou um oráculo de compliance que faz screening de um bilhão de transações por semana. Veredito por carteira: <strong>CLEAN · FLAGGED · UNAVAILABLE</strong>. <Stamp tone="cold" rot={3}>COMPLIANCE.CC</Stamp></span></div>
+
+      <div class="folha-tag">Confissão · role para desclassificar</div>
+      <RedactBlock>
+        <p style="margin:0;">Escrevi a tese sobre o seu direito à privacidade. Depois vendi a máquina
+        que o revoga. Eu fiz a lei e o código conversarem — para te vigiar. O oráculo já está rodando.
+        Eu liguei. E é por isso que eu sei exatamente do que estou falando.</p>
+      </RedactBlock>
+    </div>
+  </div>
+
+  <div class="folha-tag">Testemunho · Anexo B-2</div>
+  <div class="annexB">
+    <div>
+      <div class="mug" style="max-width:160px;">
+        <HoodedFigure />
+        <span class="corner c1"></span><span class="corner c2"></span>
+        <span class="corner c3"></span><span class="corner c4"></span>
+      </div>
+      <div class="mug-cap">testemunha · espontânea</div>
+    </div>
+    <div class="testimony">
+      <blockquote>
+        "Uma máquina que tudo vê, como se fosse um Deus no prédio. O meu direito acabou. Quanto mais
+        estudo seu livro, mais tô me sentindo oprimida no meu direito de <Redact>fazer merda em paz</Redact>."
+      </blockquote>
+      <span class="signature">Marícia Ullmann</span>
+      <div class="sig-meta">Leitora e mãe do autor · depoimento espontâneo · assinado de próprio punho</div>
+    </div>
+  </div>
+
+  <p class="hint">a fonte entregou tudo · <span><a href="/livro" style="color:var(--brasa2)">ver o documento</a></span></p>
+</DossieFrame>
