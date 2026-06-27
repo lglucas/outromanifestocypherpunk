@@ -1,24 +1,39 @@
 ---
-// Os valores são preenchidos no cliente (fill-easter-eggs) a partir do sessionStorage.
+// Ficha do sujeito (SUJEITO) no layout do protótipo. Valores reais preenchidos no cliente.
+import HoodedFigure from './dossie/svg/HoodedFigure.astro';
+import RedactBlock from './dossie/RedactBlock.astro';
 ---
-<section class="subject">
-  <h2 class="stencil">ARQUIVO Nº 0001 — <span data-egg="nome">SUJEITO Nº 0001</span></h2>
-  <dl class="grid">
-    <div><dt>LOCALIZAÇÃO</dt><dd data-egg="localizacao">—</dd></div>
-    <div><dt>OPERADORA</dt><dd data-egg="operadora">—</dd></div>
-    <div><dt>MÁQUINA</dt><dd data-egg="maquina">—</dd></div>
-    <div><dt>ENDEREÇO IP</dt><dd data-egg="ip">—</dd></div>
-  </dl>
-</section>
+<div class="subject-grid">
+  <div>
+    <div class="field"><span class="k">SUJEITO</span><span class="v big"><span data-egg="nome">SUJEITO Nº 0001</span> <span style="color:var(--brasa2)">"você"</span></span></div>
+    <div class="field"><span class="k">LOCALIZAÇÃO ESTIMADA</span><span class="v" data-egg="localizacao">—</span></div>
+    <div class="field"><span class="k">OPERADORA / NÓ DE SAÍDA</span><span class="v" data-egg="operadora">—</span></div>
+    <div class="field"><span class="k">DISPOSITIVO</span><span class="v" data-egg="maquina">—</span></div>
+    <div class="field"><span class="k">ENDEREÇO IP</span><span class="v" data-egg="ip">—</span></div>
+    <div class="status-line"><span class="k">PREDIÇÃO COMPORTAMENTAL</span><br /><span class="v">CUMPRIRÁ OS TERMOS SEM LER</span></div>
+  </div>
+  <div>
+    <div class="mug">
+      <HoodedFigure />
+      <div class="grid-h"></div>
+      <span class="corner c1"></span><span class="corner c2"></span>
+      <span class="corner c3"></span><span class="corner c4"></span>
+      <span class="scanid"></span>
+    </div>
+    <div class="mug-cap">captura automática · sem consentimento</div>
+  </div>
+</div>
 
-<style>
-  .subject { border: 1px solid var(--aco); padding: 20px; background: var(--paper); }
-  .stencil { font-family: var(--font-stencil); color: var(--brasa-claro); letter-spacing: .04em; margin: 0; }
-  .grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; margin-top: 14px; }
-  dt { font-family: var(--font-mono); font-size: 10px; color: var(--cinza-morto); }
-  dd { font-family: var(--font-mono); font-size: 14px; color: var(--osso); margin: 2px 0 0; }
-  @media (max-width: 640px) { .grid { grid-template-columns: 1fr; } }
-</style>
+<div class="scores">
+  <div class="score"><div class="lbl">Índice de comportamento</div><div class="val">7/10</div><div class="bars">████████░░</div><div class="note">tendência: recusa precoce</div></div>
+  <div class="score danger"><div class="lbl">Nível de risco</div><div class="val">ESCALANDO</div><div class="bars">▲ ▲ ▲</div><div class="note">leitura em progresso</div></div>
+  <div class="score"><div class="lbl">Classe de privacidade</div><div class="val">ANORMAL</div><div class="bars">! !</div><div class="note">demanda monitoramento</div></div>
+</div>
+
+<div class="folha-tag">Observação do analista</div>
+<RedactBlock>
+  <p style="margin:0;">O sujeito apresenta sintomas precoces de recusa. Recomenda-se monitoramento contínuo via interface amigável: tende a aceitar termos que não lê, e a coleta permanece autorizada por padrão. Caso conclua a leitura desta obra, reclassificar como <strong>não-cooperativo</strong> e reavaliar a predição "CUMPRIRÁ".</p>
+</RedactBlock>
 
 <script>
   import { fillEasterEggs } from '../features/dossie/fill-easter-eggs';

@@ -1,0 +1,13 @@
+---
+// Carimbo. Port de 03-dossie.html. Props: tom (cor), rot (rotação 1-4), big.
+interface Props { tone?: 'brasa' | 'red' | 'cold'; rot?: 1 | 2 | 3 | 4; big?: boolean }
+const { tone = 'brasa', rot, big = false } = Astro.props;
+const cls = [
+  'stamp',
+  big && 'big',
+  tone === 'red' && 'red',
+  tone === 'cold' && 'cold',
+  rot && `r${rot}`,
+].filter(Boolean).join(' ');
+---
+<span class={cls}><slot /></span>

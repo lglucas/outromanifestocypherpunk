@@ -1,0 +1,18 @@
+---
+// Abas de pasta = navegação entre os anexos (links). Visual port de 03-dossie.html.
+interface Props { current?: string }
+const { current = '/' } = Astro.props;
+const tabs = [
+  { no: 'ANEXO —', label: 'SUJEITO', href: '/' },
+  { no: 'ANEXO A', label: 'DOCUMENTO', href: '/livro' },
+  { no: 'ANEXO B', label: 'INFORMANTE', href: '/autor' },
+  { no: 'ANEXO C', label: 'LIBERAÇÃO', href: '/download' },
+];
+---
+<nav class="tabs" aria-label="Anexos do dossiê">
+  {tabs.map((t) => (
+    <a class="tab" href={t.href} aria-current={current === t.href ? 'page' : undefined}>
+      <span class="num">{t.no}</span>{t.label}
+    </a>
+  ))}
+</nav>

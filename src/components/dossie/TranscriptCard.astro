@@ -1,0 +1,15 @@
+---
+// Card de transcrição (torto + fita + pin + tarja revelável). Port de 03-dossie.html.
+interface Props { tilt?: 1 | 2 | 3; freq: string; cap: string }
+const { tilt = 1, freq, cap } = Astro.props;
+---
+<div class={`transcript tilt${tilt}`}>
+  <span class="tape tl"></span><span class="pin tlp"></span>
+  <span class="tape tr"></span><span class="pin brp"></span>
+  <div class="meta"><span class="freq">FREQ {freq}</span><span>{cap}</span></div>
+  <div class="redact-block">
+    <span class="declass-tag">DESCLASSIFICADO</span>
+    <blockquote><slot /></blockquote>
+  </div>
+  <button class="reveal-btn" data-reveal type="button">REVELAR</button>
+</div>

@@ -1,0 +1,16 @@
+---
+// Mira (crosshair). Port de 06-dossie-hud.html. Aceita classe de posicionamento via prop.
+interface Props { class?: string }
+const { class: cls = '' } = Astro.props;
+---
+<svg class={cls} viewBox="0 0 100 100" fill="none" aria-hidden="true">
+  <g fill="none" stroke="#5B7C92" stroke-width="1.4">
+    <circle cx="50" cy="50" r="38" opacity=".5"></circle>
+    <circle cx="50" cy="50" r="22"></circle>
+    <line x1="50" y1="2" x2="50" y2="26"></line>
+    <line x1="50" y1="74" x2="50" y2="98"></line>
+    <line x1="2" y1="50" x2="26" y2="50"></line>
+    <line x1="74" y1="50" x2="98" y2="50"></line>
+  </g>
+  <circle cx="50" cy="50" r="2.4" fill="#5B7C92"></circle>
+</svg>

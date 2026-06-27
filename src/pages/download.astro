@@ -1,9 +1,63 @@
 ---
-export const prerender = true;
-import Base from '../layouts/Base.astro';
-import { t } from '../i18n/ui';
+import DossieFrame from '../layouts/DossieFrame.astro';
+export const prerender = false;
 ---
-<Base title={t('pt', 'nav.download')}>
-  <h1 class="text-3xl font-bold">{t('pt', 'nav.download')}</h1>
-  <p class="mt-4 text-neutral-400">{t('pt', 'wip')}</p>
-</Base>
+<DossieFrame title="ANEXO C · LIBERAÇÃO" current="/download">
+  <div class="folha-tag">Anexo C · liberação</div>
+  <h2 class="block">A <span class="accent">LIBERAÇÃO</span></h2>
+
+  <div class="liberation">
+    <h3>Solicitar desclassificação total</h3>
+    <p class="intro">
+      O documento completo é livre. Em <strong>PDF e EPUB</strong>, sob licença CC BY-SA 4.0 —
+      você pode copiar, estudar e redistribuir. Sem custo, sem coleta escondida, sem inferência.
+      Deixe um canal de contato e seja avisado quando a obra for liberada.
+    </p>
+    <form class="capture" data-capture novalidate>
+      <input type="email" name="email" placeholder="seu-email@dominio.cifrado" aria-label="seu e-mail" />
+      <button class="btn-notify" type="submit">Quero ser avisado</button>
+    </form>
+    <div class="capture-ok" data-capture-msg role="status" aria-live="polite"></div>
+
+    <p style="font-size:12px;color:var(--cinza-morto);letter-spacing:.04em;margin:0 0 20px;max-width:560px;line-height:1.6;">Guardamos só o teu e-mail, no nosso servidor. Não vendemos, não inferimos, não entregamos a ninguém. (Sim — a ironia não passou despercebida.)</p>
+
+    <div class="cta-stamps">
+      <a class="cta-stamp cta-free" href="#"><span class="ink"></span>Baixar grátis — em breve</a>
+      <a class="cta-stamp cta-buy" href="#"><span class="ink"></span>Adquirir na Amazon — em breve</a>
+    </div>
+  </div>
+
+  <p class="hint">CC BY-SA 4.0 · <span>don't trust, verify</span></p>
+</DossieFrame>
+
+<script>
+  import { validateEmail } from '../features/lead-capture/validate-email';
+  const form = document.querySelector<HTMLFormElement>('[data-capture]');
+  const msg = document.querySelector<HTMLElement>('[data-capture-msg]');
+  form?.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    if (!msg) return;
+    const input = form.querySelector<HTMLInputElement>('input[name="email"]');
+    const email = (input?.value ?? '').trim();
+    if (!validateEmail(email).ok) {
+      msg.style.color = 'var(--alarme)';
+      msg.textContent = '✕ ENDEREÇO INVÁLIDO — TENTE NOVAMENTE.';
+      return;
+    }
+    msg.style.color = 'var(--brasa2)';
+    msg.textContent = '► PROCESSANDO...';
+    try {
+      const res = await fetch('/api/enter', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ name: 'leitor (liberação)', email }),
+      });
+      msg.textContent = res.ok
+        ? '► CANAL REGISTRADO. VOCÊ SERÁ AVISADO. NENHUM DADO INFERIDO.'
+        : '✕ FALHA NO REGISTRO — TENTE DE NOVO.';
+      if (res.ok && input) input.value = '';
+    } catch {
+      msg.textContent = '✕ FALHA NO REGISTRO — TENTE DE NOVO.';
+    }
+  });
+</script>

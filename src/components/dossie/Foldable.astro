@@ -1,0 +1,12 @@
+---
+// Seção dobrável (página apreendida). Port de 03-dossie.html.
+interface Props { title: string; seal?: string }
+const { title, seal = 'LACRADO' } = Astro.props;
+---
+<div class="fold">
+  <div class="fold-head" data-fold>
+    <span>{title}</span>
+    <span><span class="seal">{seal}</span> <span class="chev">▸</span></span>
+  </div>
+  <div class="fold-body"><div class="fold-inner"><slot /></div></div>
+</div>
