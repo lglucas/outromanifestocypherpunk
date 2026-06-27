@@ -1,0 +1,35 @@
+---
+// Barras HUD portadas de prototype-lab-v2/06-dossie-hud.html
+---
+<div class="hud-top">
+  <span class="rec">● REC</span>
+  <span>SISTEMA AÇO</span>
+  <span class="clock" data-clock>--:--:--</span>
+</div>
+<div class="hud-bottom">
+  <span data-egg="ticker">RASTREAMENTO CONTÍNUO ATIVO…</span>
+</div>
+<span class="bracket tl"></span><span class="bracket tr"></span>
+<span class="bracket bl"></span><span class="bracket br"></span>
+
+<style>
+  .hud-top, .hud-bottom { position: fixed; left: 0; right: 0; height: 28px; z-index: 40;
+    display: flex; align-items: center; justify-content: space-between; gap: 1rem;
+    padding: 0 12px; font-family: var(--font-mono); font-size: 11px; color: var(--aco-claro);
+    background: rgba(10,11,13,.85); }
+  .hud-top { top: 0; border-bottom: 1px solid var(--aco); }
+  .hud-bottom { bottom: 0; border-top: 1px solid var(--aco); }
+  .rec { color: var(--alarme); animation: blink 1.4s steps(1) infinite; }
+  @keyframes blink { 50% { opacity: .2; } }
+  .bracket { position: fixed; width: 18px; height: 18px; border: 2px solid var(--brasa); z-index: 40; }
+  .bracket.tl { top: 32px; left: 8px; border-right: 0; border-bottom: 0; }
+  .bracket.tr { top: 32px; right: 8px; border-left: 0; border-bottom: 0; }
+  .bracket.bl { bottom: 32px; left: 8px; border-right: 0; border-top: 0; }
+  .bracket.br { bottom: 32px; right: 8px; border-left: 0; border-top: 0; }
+  @media (max-width: 640px) { .bracket { display: none; } }
+</style>
+
+<script>
+  const clock = document.querySelector('[data-clock]');
+  if (clock) setInterval(() => { clock.textContent = new Date().toLocaleTimeString('pt-BR'); }, 1000);
+</script>

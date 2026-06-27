@@ -1,0 +1,26 @@
+---
+// Os valores são preenchidos no cliente (fill-easter-eggs) a partir do sessionStorage.
+---
+<section class="subject">
+  <h2 class="stencil">ARQUIVO Nº 0001 — <span data-egg="nome">SUJEITO Nº 0001</span></h2>
+  <dl class="grid">
+    <div><dt>LOCALIZAÇÃO</dt><dd data-egg="localizacao">—</dd></div>
+    <div><dt>OPERADORA</dt><dd data-egg="operadora">—</dd></div>
+    <div><dt>MÁQUINA</dt><dd data-egg="maquina">—</dd></div>
+    <div><dt>ENDEREÇO IP</dt><dd data-egg="ip">—</dd></div>
+  </dl>
+</section>
+
+<style>
+  .subject { border: 1px solid var(--aco); padding: 20px; background: var(--paper); }
+  .stencil { font-family: var(--font-stencil); color: var(--brasa-claro); letter-spacing: .04em; margin: 0; }
+  .grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; margin-top: 14px; }
+  dt { font-family: var(--font-mono); font-size: 10px; color: var(--cinza-morto); }
+  dd { font-family: var(--font-mono); font-size: 14px; color: var(--osso); margin: 2px 0 0; }
+  @media (max-width: 640px) { .grid { grid-template-columns: 1fr; } }
+</style>
+
+<script>
+  import { fillEasterEggs } from '../features/dossie/fill-easter-eggs';
+  fillEasterEggs();
+</script>

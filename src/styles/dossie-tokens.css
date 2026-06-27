@@ -1,0 +1,19 @@
+/* dossie-tokens.css — paleta e fontes do dossiê (port de prototype-lab-v2/03-dossie.html) */
+@import url('https://fonts.googleapis.com/css2?family=Special+Elite&family=Saira+Stencil+One&family=Oswald:wght@400;600;700&family=IBM+Plex+Mono:wght@400;600&display=swap');
+
+:root {
+  --vazio: #0A0B0D;
+  --aco: #3E5A6E;
+  --aco-claro: #5B7C92;
+  --brasa: #C8521E;
+  --brasa-claro: #E0731F;
+  --alarme: #B5202A;
+  --osso: #D9D2C5;
+  --cinza-morto: #7A8088;
+  --paper: #15171a;
+
+  --font-corpo: 'Special Elite', monospace;
+  --font-stencil: 'Saira Stencil One', sans-serif;
+  --font-display: 'Oswald', sans-serif;
+  --font-mono: 'IBM Plex Mono', monospace;
+}

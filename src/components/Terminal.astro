@@ -1,0 +1,26 @@
+---
+// Casca visual do terminal. Estética CRT herdada de prototype-lab-v2/01-terminal.html.
+---
+<div class="term-root" data-term-root>
+  <div class="term-screen">
+    <pre class="term-out" data-term-out></pre>
+  </div>
+</div>
+
+<style>
+  .term-root { position: fixed; inset: 0; z-index: 9999; background: #0A0B0D; color: #D9D2C5;
+    font-family: 'IBM Plex Mono', monospace; padding: 6vh 6vw; overflow-y: auto; }
+  .term-out { white-space: pre-wrap; line-height: 1.6; font-size: clamp(13px, 1.6vw, 16px); margin: 0; }
+  .term-input { background: transparent; border: none; color: #E0731F; font: inherit; outline: none; width: 60%; }
+  .term-input-row { color: #E0731F; }
+  .term-root::after { content: ''; position: fixed; inset: 0; pointer-events: none;
+    background: repeating-linear-gradient(0deg, rgba(0,0,0,.18) 0 1px, transparent 1px 3px); }
+  .term-shutdown { animation: shutdown .9s forwards; }
+  @keyframes shutdown { to { filter: brightness(0); transform: scaleY(.002); } }
+</style>
+
+<script>
+  import { runTerminal } from '../features/terminal/terminal-runtime';
+  const root = document.querySelector<HTMLElement>('[data-term-root]');
+  if (root) runTerminal(root);
+</script>
