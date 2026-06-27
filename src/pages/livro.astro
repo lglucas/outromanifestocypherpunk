@@ -1,9 +1,83 @@
 ---
-export const prerender = true;
-import Base from '../layouts/Base.astro';
-import { t } from '../i18n/ui';
+import DossieFrame from '../layouts/DossieFrame.astro';
+import TranscriptCard from '../components/dossie/TranscriptCard.astro';
+import Foldable from '../components/dossie/Foldable.astro';
+export const prerender = false;
+
+const capitulos = [
+  ['01', 'A vigilância que ganhamos'],
+  ['02', 'Privacidade: a coisa que tentaram codificar como direito'],
+  ['03', 'Bitcoin: a primeira tentativa séria'],
+  ['04', 'A explosão e a ressaca'],
+  ['05', 'Quando o Estado entra: regular tarde, parcial, blindando a si'],
+  ['06', 'A IA muda tudo (de novo)'],
+  ['07', 'x402 e a economia dos agentes'],
+];
+
+const trechos = [
+  {
+    tilt: 1, freq: '1.404 MHz', cap: 'CAPÍTULO 1',
+    texto: 'A vigilância antes era farda, fichário, escuta autorizada. Quem faz o trabalho sujo agora tem interface bonita, microcopy gentil, e pede permissão antes de vasculhar. Você não liga, porque você não pensa que isso é com você. Mas é.',
+  },
+  {
+    tilt: 2, freq: '0.953 MHz', cap: 'CAPÍTULO 6',
+    texto: 'A IA não rompe nada disso. Ela acelera. Não vê apenas o que você fez — infere o que você é. É o seu telefone sabendo o que você é antes de você saber.',
+  },
+  {
+    tilt: 3, freq: '2.110 MHz', cap: 'CAPÍTULO 2',
+    texto: 'Privacidade não é o direito de esconder uma coisa feia. É o direito de fazer merda em paz, de errar, de mudar — e, para milhões de pessoas, é o direito anterior a todos: o de continuar existindo.',
+  },
+];
 ---
-<Base title={t('pt', 'nav.book')}>
-  <h1 class="text-3xl font-bold">{t('pt', 'nav.book')}</h1>
-  <p class="mt-4 text-neutral-400">{t('pt', 'wip')}</p>
-</Base>
+<DossieFrame title="ANEXO A · O DOCUMENTO" current="/livro">
+  <div class="folha-tag">Anexo A · evidência apreendida</div>
+  <h2 class="block">O <span class="accent">DOCUMENTO</span></h2>
+  <p class="docsub" style="max-width:620px;">
+    Não-ficção. 7 capítulos. A tese: a tecnologia que prometia libertar — criptografia,
+    blockchain, IA — foi capturada por Estados e corporações e virou o braço mais eficiente
+    de controle que já existiu. O padrão é estrutural, não acidente.
+  </p>
+
+  <div class="folha-tag">Índice de provas</div>
+  <div class="evidencias">
+    {capitulos.map(([n, titulo]) => (
+      <div class="evrow"><span class="evno">CAP {n}</span><span class="evtit">{titulo}</span></div>
+    ))}
+  </div>
+
+  <div class="folha-tag">Interceptações · role para desclassificar</div>
+  {trechos.map((t) => (
+    <TranscriptCard tilt={t.tilt as 1 | 2 | 3} freq={t.freq} cap={t.cap}>{t.texto}</TranscriptCard>
+  ))}
+
+  <div class="folha-tag">Amostra apreendida</div>
+  <div class="sample">
+    <Foldable title="Página I · Abertura" seal="SELO ROMPIDO">
+      <p><span class="dropcap">H</span>ouve um tempo em que a promessa era simples: a criptografia
+      devolveria ao indivíduo o que o Estado e a corporação haviam tomado. O código seria a arma
+      do fraco. A privacidade, um padrão — não um pedido.</p>
+      <p>Este livro é sobre o que aconteceu com essa promessa. Sobre o dia em que a ferramenta de
+      libertação aprendeu a sorrir antes de revistar você.</p>
+    </Foldable>
+    <Foldable title="Página II · O virar" seal="LACRADO">
+      <p>A conveniência foi o cavalo de Troia. Cada permissão concedida sem leitura, cada "aceitar
+      todos", cada interface gentil — tijolos de uma prisão que pede desculpas antes de fechar a porta.</p>
+      <p>[ trecho seguinte disponível na edição completa ]</p>
+    </Foldable>
+    <Foldable title="Página III · A recusa" seal="CLASSIFICADO">
+      <p>Recusar é possível. Não como nostalgia, mas como engenharia: criptografia, soberania de
+      chaves, o direito de existir sem ser inferido. O outro manifesto começa aqui.</p>
+      <p>[ continua... ]</p>
+    </Foldable>
+  </div>
+
+  <p class="hint">o documento completo é livre · <span><a href="/download" style="color:var(--brasa2)">solicitar liberação</a></span></p>
+</DossieFrame>
+
+<style>
+  .evidencias { border: 1px solid #262a2f; border-radius: 6px; overflow: hidden; }
+  .evrow { display: flex; gap: 14px; align-items: baseline; padding: 10px 16px; border-bottom: 1px solid #1c2025; }
+  .evrow:last-child { border-bottom: none; }
+  .evno { font-family: var(--font-mono); font-size: 11px; color: var(--aco2); letter-spacing: .12em; flex: none; min-width: 60px; }
+  .evtit { font-family: var(--font-corpo); color: var(--osso); }
+</style>
