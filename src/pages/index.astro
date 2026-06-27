@@ -16,6 +16,8 @@ const { showTerminal } = Astro.locals;
 
   <p class="tese-home">Você deixou de ser cidadão. <span style="color:var(--brasa2)">Virou usuário.</span></p>
 
+  <p class="slogan-unico">A tecnologia que prometia libertar virou o braço mais eficiente de controle que já existiu. <span>E ainda transformou isso numa palestra de inovação.</span></p>
+
   <div class="stamp-row">
     <Stamp big rot={1}>DON'T TRUST, VERIFY</Stamp>
     <Stamp big tone="cold" rot={2}>CODE IS LAW</Stamp>
@@ -34,4 +36,8 @@ const { showTerminal } = Astro.locals;
 <style>
   .tese-home { font-family: var(--font-display); font-size: clamp(24px, 4.5vw, 44px);
     line-height: 1.1; margin: 32px 0 8px; text-transform: uppercase; letter-spacing: .01em; color: var(--osso); }
+  .slogan-unico { font-family: var(--font-corpo); font-size: clamp(15px, 2.2vw, 19px);
+    line-height: 1.6; color: var(--osso); border-left: 3px solid var(--brasa); padding-left: 16px;
+    margin: 0 0 10px; max-width: 680px; }
+  .slogan-unico span { color: var(--cinza-morto); }
 </style>
