@@ -6,3 +6,7 @@ dist/
 !.env.example
 *.log
 .DS_Store
+
+# Bancos geo-IP (baixados no build; grandes, licença CC DB-IP)
+data/*.mmdb
+data/*.mmdb.gz
