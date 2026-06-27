@@ -2,6 +2,7 @@ import { initialState, reduce } from './machine';
 import { SCRIPT_PT } from './script-pt';
 import { buildRevealLines } from './build-reveal-lines';
 import { collectFingerprint } from '../visitor-data/client-fingerprint';
+import { validateEmail } from '../lead-capture/validate-email';
 import type { ServerVisitorData } from '../visitor-data/types';
 
 const TYPE_MS = 18;
@@ -57,7 +58,16 @@ export async function runTerminal(root: HTMLElement) {
   s = reduce(s, { type: 'NAME_SUBMIT', value: name });
 
   await typeLines(out, SCRIPT_PT.askEmail);
-  const email = await ask(out, '_ > [ S = aceito ]');
+  let email = '';
+  for (;;) {
+    const candidate = await ask(out, '_ > [ S = aceito ]');
+    const v = validateEmail(candidate);
+    if (v.ok) {
+      email = candidate.trim();
+      break;
+    }
+    await typeLines(out, SCRIPT_PT.emailReject[v.reason]);
+  }
   s = reduce(s, { type: 'EMAIL_SUBMIT', value: email });
 
   // grava o lead e pega o visitor server-side

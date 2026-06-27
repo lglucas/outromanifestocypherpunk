@@ -29,6 +29,17 @@ export const SCRIPT_PT = {
     '> e essa eu adoro: você ligou o "não me rastreie".',
     '> fofo. tá vendo de onde eu tô te falando?',
   ],
+  emailReject: {
+    format: [
+      '> isso não é um e-mail. nem parece. tenta de novo.',
+      '> e dessa vez escreve algo que exista.',
+    ],
+    placeholder: [
+      '> @example? sério? eu disse o de verdade.',
+      '> você acha mesmo que eu não confiro? domínio de fachada não cola aqui.',
+      '> de novo. um e-mail que abre.',
+    ],
+  } as Record<'format' | 'placeholder', string[]>,
   confession: [
     '> não te assusta porque eu sou especial. assusta porque é fácil.',
     '> eu faço isso pra viver. me pagam bem. tem nome bonito, tem palestra, tem sala.',

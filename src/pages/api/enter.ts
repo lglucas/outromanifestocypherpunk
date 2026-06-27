@@ -1,5 +1,5 @@
 import type { APIRoute } from 'astro';
-import { subscribeLead, buildConsentNote } from '../../features/lead-capture';
+import { subscribeLead, buildConsentNote, validateEmail } from '../../features/lead-capture';
 import { GATE_COOKIE } from '../../features/terminal/gate';
 
 export const prerender = false;
@@ -13,7 +13,8 @@ export const POST: APIRoute = async ({ request, locals, cookies }) => {
   }
   const name = (body.name ?? '').trim();
   const email = (body.email ?? '').trim();
-  if (!name || !/^\S+@\S+\.\S+$/.test(email)) {
+  // Defesa server-side: o cliente já valida em loop, mas não confiamos no cliente.
+  if (!name || !validateEmail(email).ok) {
     return new Response(JSON.stringify({ ok: false, error: 'invalid' }), { status: 422 });
   }
 
