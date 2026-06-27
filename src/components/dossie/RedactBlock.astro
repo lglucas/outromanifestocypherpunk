@@ -1,0 +1,12 @@
+---
+// Tarja em bloco (abre de cima p/ baixo ao rolar). Opcional: botão REVELAR/RE-TARJAR.
+interface Props { withButton?: boolean }
+const { withButton = false } = Astro.props;
+---
+<div class="redact-group">
+  <div class="redact-block">
+    <span class="declass-tag">DESCLASSIFICADO</span>
+    <slot />
+  </div>
+  {withButton && <button class="reveal-btn" data-reveal type="button">REVELAR</button>}
+</div>

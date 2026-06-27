@@ -1,6 +1,7 @@
 ---
 // Ficha do sujeito (SUJEITO) no layout do protótipo. Valores reais preenchidos no cliente.
 import HoodedFigure from './dossie/svg/HoodedFigure.astro';
+import RedactBlock from './dossie/RedactBlock.astro';
 ---
 <div class="subject-grid">
   <div>
@@ -28,6 +29,11 @@ import HoodedFigure from './dossie/svg/HoodedFigure.astro';
   <div class="score danger"><div class="lbl">Nível de risco</div><div class="val">ESCALANDO</div><div class="bars">▲ ▲ ▲</div><div class="note">leitura em progresso</div></div>
   <div class="score"><div class="lbl">Classe de privacidade</div><div class="val">ANORMAL</div><div class="bars">! !</div><div class="note">demanda monitoramento</div></div>
 </div>
+
+<div class="folha-tag">Observação do analista</div>
+<RedactBlock>
+  <p style="margin:0;">O sujeito apresenta sintomas precoces de recusa. Recomenda-se monitoramento contínuo via interface amigável: tende a aceitar termos que não lê, e a coleta permanece autorizada por padrão. Caso conclua a leitura desta obra, reclassificar como <strong>não-cooperativo</strong> e reavaliar a predição "CUMPRIRÁ".</p>
+</RedactBlock>
 
 <script>
   import { fillEasterEggs } from '../features/dossie/fill-easter-eggs';

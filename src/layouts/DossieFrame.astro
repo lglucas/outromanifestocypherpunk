@@ -66,6 +66,10 @@ const { title = 'O Outro Manifesto Cypherpunk', current = '/' } = Astro.props;
         setInterval(tick, 1000);
       }
     </script>
+    <script>
+      import { initRedaction } from '../features/dossie/redaction';
+      initRedaction();
+    </script>
   </body>
 </html>
 
