@@ -1,8 +1,11 @@
 ---
-export const prerender = true;
+export const prerender = false;
 import Base from '../layouts/Base.astro';
+import Terminal from '../components/Terminal.astro';
 import { t } from '../i18n/ui';
+const { showTerminal } = Astro.locals;
 ---
+{showTerminal && <Terminal />}
 <Base>
   <h1 class="text-4xl font-bold tracking-tight">{t('pt', 'site.title')}</h1>
   <p class="mt-4 text-lg text-neutral-300">{t('pt', 'site.tagline')}</p>

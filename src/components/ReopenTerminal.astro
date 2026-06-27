@@ -1,0 +1,18 @@
+---
+// Botão discreto que limpa o cookie do portão e recarrega -> o terminal volta.
+---
+<button class="reopen" data-reopen>› reabrir transmissão</button>
+
+<style>
+  .reopen { position: fixed; bottom: 12px; right: 12px; z-index: 50; background: transparent;
+    border: 1px solid #3E5A6E; color: #5B7C92; font-family: 'IBM Plex Mono', monospace;
+    font-size: 11px; padding: 4px 8px; cursor: pointer; }
+  .reopen:hover { color: #E0731F; border-color: #E0731F; }
+</style>
+
+<script>
+  document.querySelector('[data-reopen]')?.addEventListener('click', () => {
+    document.cookie = 'livro_entered=; path=/; max-age=0';
+    window.location.href = '/';
+  });
+</script>
