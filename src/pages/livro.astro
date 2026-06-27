@@ -5,13 +5,15 @@ import Foldable from '../components/dossie/Foldable.astro';
 export const prerender = false;
 
 const capitulos = [
-  ['01', 'A vigilância que ganhamos'],
-  ['02', 'Privacidade: a coisa que tentaram codificar como direito'],
-  ['03', 'Bitcoin: a primeira tentativa séria'],
-  ['04', 'A explosão e a ressaca'],
-  ['05', 'Quando o Estado entra: regular tarde, parcial, blindando a si'],
-  ['06', 'A IA muda tudo (de novo)'],
-  ['07', 'x402 e a economia dos agentes'],
+  ['CAP 01', 'A vigilância que ganhamos'],
+  ['CAP 02', 'Privacidade: a coisa que tentaram codificar como direito'],
+  ['CAP 03', 'Bitcoin: a primeira tentativa séria'],
+  ['CAP 04', 'A explosão e a ressaca'],
+  ['CAP 05', 'Quando o Estado entra: regular tarde, parcial, blindando a si'],
+  ['CAP 06', 'A IA muda tudo (de novo)'],
+  ['CAP 07', 'x402 e a economia dos agentes'],
+  ['FECHO', 'Conclusão · voltando ao início'],
+  ['FECHO', 'Manifesto · mais um manifesto cypherpunk'],
 ];
 
 const trechos = [
@@ -41,7 +43,7 @@ const trechos = [
   <div class="folha-tag">Índice de provas</div>
   <div class="evidencias">
     {capitulos.map(([n, titulo]) => (
-      <div class="evrow"><span class="evno">CAP {n}</span><span class="evtit">{titulo}</span></div>
+      <div class="evrow"><span class="evno">{n}</span><span class="evtit">{titulo}</span></div>
     ))}
   </div>
 
@@ -69,6 +71,11 @@ const trechos = [
       chaves, o direito de existir sem ser inferido. O outro manifesto começa aqui.</p>
       <p>[ continua... ]</p>
     </Foldable>
+  </div>
+
+  <div class="cta-stamps">
+    <a class="cta-stamp cta-free" href="/download"><span class="ink"></span>Baixar grátis</a>
+    <a class="cta-stamp cta-buy" href="#"><span class="ink"></span>Adquirir na Amazon — em breve</a>
   </div>
 
   <p class="hint">o documento completo é livre · <span><a href="/download" style="color:var(--brasa2)">solicitar liberação</a></span></p>

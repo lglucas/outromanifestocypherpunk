@@ -3,7 +3,10 @@ import { nextReveal } from './reveal-state';
 // Interações do dossiê: revelar tarjas ao rolar + botão toggle + seções dobráveis.
 // Port da mecânica de 03-dossie.html.
 export function initRedaction(doc: Document = document): void {
-  const blocks = doc.querySelectorAll<HTMLElement>('.redact-block, .redact');
+  // Blocos com botão manual (REVELAR) NÃO abrem sozinhos ao rolar — só no clique.
+  const blocks = Array.from(doc.querySelectorAll<HTMLElement>('.redact-block, .redact')).filter(
+    (b) => !b.closest('.transcript, .redact-group')?.querySelector('[data-reveal]'),
+  );
 
   if (typeof IntersectionObserver !== 'undefined') {
     const io = new IntersectionObserver(

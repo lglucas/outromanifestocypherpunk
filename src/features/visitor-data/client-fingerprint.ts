@@ -1,4 +1,5 @@
 import { classifyBattery, type BatteryState } from './classify-battery';
+import { parseUserAgent } from './parse-user-agent';
 import type { DeviceData } from './types';
 
 export interface ClientFingerprint extends DeviceData {
@@ -28,10 +29,12 @@ export async function collectFingerprint(): Promise<ClientFingerprint> {
     /* sem suporte: 'unknown' */
   }
 
+  const ua = parseUserAgent(nav.userAgent ?? '');
+
   return {
-    os: null, // OS/browser server-side vêm do UA; aqui foco no hardware
-    browser: null,
-    mobile: /Mobile|Android|iPhone/i.test(nav.userAgent ?? ''),
+    os: ua.os,
+    browser: ua.browser,
+    mobile: ua.mobile,
     languages: Array.isArray(nav.languages) ? [...nav.languages] : [],
     resolution: typeof screen !== 'undefined' ? `${screen.width}x${screen.height}` : null,
     timezone: Intl.DateTimeFormat().resolvedOptions().timeZone ?? null,
