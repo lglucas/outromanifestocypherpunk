@@ -15,7 +15,11 @@ export interface SubscribeResult {
   status: number;
 }
 
-export async function subscribeLead(lead: Lead, cfg: ListmonkConfig): Promise<SubscribeResult> {
+export async function subscribeLead(
+  lead: Lead,
+  cfg: ListmonkConfig,
+  attribs?: Record<string, unknown>,
+): Promise<SubscribeResult> {
   try {
     const res = await fetch(`${cfg.apiUrl}/api/subscribers`, {
       method: 'POST',
@@ -29,6 +33,7 @@ export async function subscribeLead(lead: Lead, cfg: ListmonkConfig): Promise<Su
         status: 'enabled',
         lists: [cfg.listId],
         preconfirm_subscriptions: false, // dispara double opt-in
+        ...(attribs ? { attribs } : {}),
       }),
     });
     return { ok: res.ok, status: res.status };
