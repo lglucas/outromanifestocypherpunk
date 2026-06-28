@@ -5,8 +5,15 @@ import RedactBlock from '../components/dossie/RedactBlock.astro';
 import Redact from '../components/dossie/Redact.astro';
 import Stamp from '../components/dossie/Stamp.astro';
 export const prerender = false;
+const desc = 'O informante: o advogado-programador que construiu máquinas de compliance e vigilância — e agora entrega o dossiê. Mais um manifesto cypherpunk, de quem esteve dos dois lados.';
+const jsonLd = {
+  '@context': 'https://schema.org', '@type': 'Person', name: 'Lucas Lopes Galvão',
+  jobTitle: 'Advogado e programador', nationality: 'BR',
+  description: 'Advogado (Direito Europeu e Alemão, UFRGS/PUCRS) e programador; autor de "O Outro Manifesto Cypherpunk".',
+  url: 'https://outromanifesto.space/autor',
+};
 ---
-<DossieFrame title="ANEXO B · O INFORMANTE" current="/autor">
+<DossieFrame title="ANEXO B · O INFORMANTE" current="/autor" description={desc} ogType="profile" jsonLd={jsonLd}>
   <div class="folha-tag">Anexo B · fonte do vazamento</div>
   <h2 class="block">O <span class="accent">INFORMANTE</span></h2>
   <p class="docsub" style="max-width:620px;">

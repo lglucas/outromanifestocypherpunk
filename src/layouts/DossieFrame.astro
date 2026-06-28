@@ -6,8 +6,21 @@ import Camera from '../components/dossie/svg/Camera.astro';
 import Crosshair from '../components/dossie/svg/Crosshair.astro';
 import AnarchistA from '../components/dossie/svg/AnarchistA.astro';
 import ReopenTerminal from '../components/ReopenTerminal.astro';
-interface Props { title?: string; current?: string }
-const { title = 'O Outro Manifesto Cypherpunk', current = '/' } = Astro.props;
+import Seo from '../components/Seo.astro';
+interface Props {
+  title?: string;
+  current?: string;
+  description?: string;
+  ogType?: string;
+  jsonLd?: Record<string, unknown> | Record<string, unknown>[];
+}
+const {
+  title = 'O Outro Manifesto Cypherpunk',
+  current = '/',
+  description = 'Você deixou de ser cidadão. Virou usuário. O Outro Manifesto Cypherpunk — por que a tecnologia que prometia libertar virou o braço mais eficiente de controle. Livro grátis (CC BY-SA).',
+  ogType = 'website',
+  jsonLd,
+} = Astro.props;
 ---
 <!doctype html>
 <html lang="pt">
@@ -15,7 +28,7 @@ const { title = 'O Outro Manifesto Cypherpunk', current = '/' } = Astro.props;
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-    <title>{title}</title>
+    <Seo title={title} description={description} path={current} type={ogType} jsonLd={jsonLd} />
   </head>
   <body class="dossie-body paper-grain">
     <Atmosphere />
