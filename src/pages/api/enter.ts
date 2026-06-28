@@ -28,9 +28,8 @@ export const POST: APIRoute = async ({ request, locals, cookies }) => {
       token: process.env.LISTMONK_API_TOKEN ?? '',
       listId: Number(process.env.LISTMONK_LIST_ID ?? 0),
     },
+    { consentimento: buildConsentNote(new Date().toISOString()) },
   );
-  // Nota de consentimento (futuro: gravar como atributo custom no Listmonk).
-  void buildConsentNote(new Date().toISOString());
 
   cookies.set(GATE_COOKIE, '1', {
     path: '/', maxAge: 60 * 60 * 24 * 365, httpOnly: false, sameSite: 'lax',

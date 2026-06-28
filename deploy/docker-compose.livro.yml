@@ -26,8 +26,14 @@ services:
       - TUNNEL_TOKEN=${CLOUDFLARE_TUNNEL_TOKEN}
     depends_on:
       - livro-web
+    networks:
+      - default
+      - shared-umami        # roteia stats.outromanifesto.space -> umami:3000
 
 networks:
   shared-listmonk:
     external: true
     name: shared-listmonk
+  shared-umami:
+    external: true
+    name: shared-umami

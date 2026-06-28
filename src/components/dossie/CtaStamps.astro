@@ -1,0 +1,16 @@
+---
+// CTAs em carimbo: baixar grátis + Amazon (ativa só quando AMAZON_URL existe).
+import { AMAZON_URL } from '../../config/links';
+---
+<div class="cta-stamps">
+  <a class="cta-stamp cta-free" href="/download"><span class="ink"></span>Baixar grátis</a>
+  {AMAZON_URL ? (
+    <a class="cta-stamp cta-buy" href={AMAZON_URL} target="_blank" rel="noopener"><span class="ink"></span>Adquirir na Amazon</a>
+  ) : (
+    <span class="cta-stamp cta-buy cta-disabled"><span class="ink"></span>Adquirir na Amazon — em breve</span>
+  )}
+</div>
+
+<style>
+  .cta-disabled { cursor: default; opacity: .7; }
+</style>

@@ -1,0 +1,29 @@
+---
+// Depoimentos (data-driven). Vazio → placeholder "chegando". Pronto p/ o conteúdo da semana.
+import { testimonials } from '../../features/dossie/testimonials';
+---
+<div class="folha-tag">Testemunhos</div>
+{testimonials.length === 0 ? (
+  <p class="tdepo-empty">[ depoimentos de leitores chegando — anexados em breve ]</p>
+) : (
+  <div class="tdepo-grid">
+    {testimonials.map((t) => (
+      <figure class="tdepo">
+        <blockquote>“{t.quote}”</blockquote>
+        <figcaption>
+          <span class="sig">{t.author}</span>
+          {t.meta && <span class="m">{t.meta}</span>}
+        </figcaption>
+      </figure>
+    ))}
+  </div>
+)}
+
+<style>
+  .tdepo-empty { font-family: var(--font-mono); font-size: 12px; color: var(--cinza-morto); letter-spacing: .06em; }
+  .tdepo-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 16px; }
+  .tdepo { margin: 0; border: 1px solid #262a2f; border-radius: 6px; padding: 18px; background: var(--paper); }
+  .tdepo blockquote { margin: 0 0 12px; font-family: var(--font-corpo); font-size: 16px; line-height: 1.6; color: var(--osso); }
+  .tdepo .sig { display: block; font-family: var(--font-corpo); color: var(--brasa-claro); }
+  .tdepo .m { display: block; font-family: var(--font-mono); font-size: 11px; color: var(--cinza-morto); margin-top: 4px; }
+</style>

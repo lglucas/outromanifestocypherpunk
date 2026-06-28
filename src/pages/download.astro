@@ -1,8 +1,9 @@
 ---
 import DossieFrame from '../layouts/DossieFrame.astro';
+import { AMAZON_URL } from '../config/links';
 export const prerender = false;
 ---
-<DossieFrame title="ANEXO C · LIBERAÇÃO" current="/download">
+<DossieFrame title="ANEXO C · LIBERAÇÃO" current="/download" description="Baixe O Outro Manifesto Cypherpunk grátis — PDF e EPUB, CC BY-SA. Sem custo, sem coleta escondida, sem inferência. Deixe seu e-mail e seja avisado no lançamento.">
   <div class="folha-tag">Anexo C · liberação</div>
   <h2 class="block">A <span class="accent">LIBERAÇÃO</span></h2>
 
@@ -22,9 +23,14 @@ export const prerender = false;
     <p style="font-size:12px;color:var(--cinza-morto);letter-spacing:.04em;margin:0 0 20px;max-width:560px;line-height:1.6;">Guardamos só o teu e-mail, no nosso servidor. Não vendemos, não inferimos, não entregamos a ninguém. (Sim — a ironia não passou despercebida.)</p>
 
     <div class="cta-stamps">
-      <a class="cta-stamp cta-free" href="#"><span class="ink"></span>Baixar grátis — em breve</a>
-      <a class="cta-stamp cta-buy" href="#"><span class="ink"></span>Adquirir na Amazon — em breve</a>
+      <span class="cta-stamp cta-free cta-disabled"><span class="ink"></span>Baixar grátis — em breve</span>
+      {AMAZON_URL ? (
+        <a class="cta-stamp cta-buy" href={AMAZON_URL} target="_blank" rel="noopener"><span class="ink"></span>Adquirir na Amazon</a>
+      ) : (
+        <span class="cta-stamp cta-buy cta-disabled"><span class="ink"></span>Adquirir na Amazon — em breve</span>
+      )}
     </div>
+    <style>.cta-disabled { cursor: default; opacity: .7; }</style>
   </div>
 
   <p class="hint">CC BY-SA 4.0 · <span>don't trust, verify</span></p>

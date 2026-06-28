@@ -3,11 +3,24 @@ import DossieFrame from '../layouts/DossieFrame.astro';
 import Terminal from '../components/Terminal.astro';
 import SubjectCard from '../components/SubjectCard.astro';
 import Stamp from '../components/dossie/Stamp.astro';
+import Testimonials from '../components/dossie/Testimonials.astro';
+import CtaStamps from '../components/dossie/CtaStamps.astro';
 export const prerender = false;
 const { showTerminal } = Astro.locals;
+const desc = 'Você deixou de ser cidadão. Virou usuário. O Outro Manifesto Cypherpunk — por que a tecnologia que prometia libertar virou o braço mais eficiente de controle. Livro grátis (CC BY-SA).';
+const jsonLd = [
+  { '@context': 'https://schema.org', '@type': 'WebSite', name: 'O Outro Manifesto Cypherpunk', url: 'https://outromanifesto.space' },
+  {
+    '@context': 'https://schema.org', '@type': 'Book', name: 'O Outro Manifesto Cypherpunk',
+    author: { '@type': 'Person', name: 'Lucas Lopes Galvão' }, inLanguage: 'pt-BR',
+    about: 'privacidade, vigilância, criptografia, blockchain, inteligência artificial',
+    license: 'https://creativecommons.org/licenses/by-sa/4.0/', isAccessibleForFree: true,
+    url: 'https://outromanifesto.space',
+  },
+];
 ---
 {showTerminal && <Terminal />}
-<DossieFrame title="ARQUIVO Nº 0001 — VOCÊ" current="/">
+<DossieFrame title="ARQUIVO Nº 0001 — VOCÊ" current="/" description={desc} jsonLd={jsonLd}>
   <h1 class="arquivo-no">ARQUIVO Nº 0001 — <span class="you" data-egg="nome">VOCÊ</span></h1>
   <p class="docsub">O Outro Manifesto Cypherpunk — por que a tecnologia que prometia libertar virou braço do controle.</p>
 
@@ -25,10 +38,9 @@ const { showTerminal } = Astro.locals;
     <Stamp big tone="red" rot={4}>FREEDOM OVER CONVENIENCE</Stamp>
   </div>
 
-  <div class="cta-stamps">
-    <a class="cta-stamp cta-free" href="/download"><span class="ink"></span>Baixar grátis</a>
-    <a class="cta-stamp cta-buy" href="#"><span class="ink"></span>Adquirir na Amazon — em breve</a>
-  </div>
+  <Testimonials />
+
+  <CtaStamps />
 
   <p class="hint">abra os anexos · <span>desclassifique o que puder</span></p>
 </DossieFrame>

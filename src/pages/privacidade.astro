@@ -1,0 +1,55 @@
+---
+import DossieFrame from '../layouts/DossieFrame.astro';
+export const prerender = false;
+const desc = 'Política de privacidade do site O Outro Manifesto Cypherpunk: o que coletamos (e-mail e analytics anônimo), por quê, e como pedir exclusão. Honramos o "Não me rastreie".';
+---
+<DossieFrame title="ANEXO · DEVER LEGAL" current="/privacidade" description={desc}>
+  <div class="folha-tag">Anexo · dever legal</div>
+  <h2 class="block">PRIVACIDADE <span class="accent">(de verdade)</span></h2>
+  <p class="docsub" style="max-width:640px;">
+    Um livro sobre vigilância não pode ser leviano com os teus dados. Então aqui vai, sem
+    juridiquês de fachada: exatamente o que coletamos, por quê, e como sair.
+  </p>
+
+  <div class="pp">
+    <h3>O que coletamos</h3>
+    <ul>
+      <li><strong>Teu e-mail e nome</strong>, se você os der no terminal ou no formulário de download. Guardados no nosso <strong>Listmonk</strong> (servidor próprio), com o teu consentimento explícito.</li>
+      <li><strong>Estatísticas de acesso anônimas</strong>, via <strong>Umami self-hosted</strong> (no nosso servidor) — sem cookies, sem te identificar, sem guardar teu IP nem teu User-Agent crus. Só números agregados (páginas vistas, país, referência).</li>
+      <li><strong>O que o "hacker" te mostra no terminal</strong> (IP, dispositivo, etc.) <strong>não é gravado no servidor</strong> — vive só na tua sessão de navegador e some quando você fecha a aba. A demonstração é o ponto; a coleta não.</li>
+    </ul>
+
+    <h3>Por quê</h3>
+    <ul>
+      <li>E-mail: te avisar do lançamento e te entregar o PDF/EPUB grátis.</li>
+      <li>Estatísticas: entender quantas pessoas chegam e por onde — nada além disso.</li>
+    </ul>
+
+    <h3>Retenção e teus direitos</h3>
+    <ul>
+      <li>Teu e-mail fica até você <strong>descadastrar</strong> (link em todo e-mail que enviarmos).</li>
+      <li>Quer ver, corrigir ou <strong>apagar</strong> teus dados? Escreva pra <a href="mailto:contato@lucasgalvao.com.br">contato@lucasgalvao.com.br</a> — a gente resolve.</li>
+      <li>Não vendemos, não alugamos, não entregamos teus dados a ninguém. (Sim, a ironia de um livro sobre isso prometer isso não passou despercebida.)</li>
+    </ul>
+
+    <h3>"Não me rastreie"</h3>
+    <p>
+      Se o teu navegador manda o sinal <em>Do Not Track</em>, o nosso analytics <strong>respeita</strong> e
+      não te conta. Aqui ele funciona. O livro é justamente sobre por que essa caixinha quase nunca te
+      protege em todo o resto da internet.
+    </p>
+
+    <p class="pp-foot">Licença do livro: CC BY-SA 4.0. Última atualização: junho/2026.</p>
+  </div>
+
+  <p class="hint">don't trust, <span>verify</span></p>
+</DossieFrame>
+
+<style>
+  .pp { max-width: 680px; }
+  .pp h3 { font-family: var(--font-display); text-transform: uppercase; letter-spacing: .06em; color: var(--brasa-claro); font-size: 18px; margin: 26px 0 8px; }
+  .pp ul { margin: 0; padding-left: 20px; }
+  .pp li { margin: 6px 0; line-height: 1.6; }
+  .pp a { color: var(--brasa-claro); }
+  .pp-foot { font-family: var(--font-mono); font-size: 12px; color: var(--cinza-morto); margin-top: 24px; }
+</style>

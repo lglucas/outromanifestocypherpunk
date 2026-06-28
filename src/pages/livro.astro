@@ -2,6 +2,7 @@
 import DossieFrame from '../layouts/DossieFrame.astro';
 import TranscriptCard from '../components/dossie/TranscriptCard.astro';
 import Foldable from '../components/dossie/Foldable.astro';
+import CtaStamps from '../components/dossie/CtaStamps.astro';
 export const prerender = false;
 
 const capitulos = [
@@ -31,7 +32,7 @@ const trechos = [
   },
 ];
 ---
-<DossieFrame title="ANEXO A · O DOCUMENTO" current="/livro">
+<DossieFrame title="ANEXO A · O DOCUMENTO" current="/livro" description="O documento: 7 capítulos + conclusão + manifesto sobre como criptografia, blockchain e IA viraram vigilância. Leia os trechos interceptados. Baixe grátis (PDF/EPUB, CC BY-SA).">
   <div class="folha-tag">Anexo A · evidência apreendida</div>
   <h2 class="block">O <span class="accent">DOCUMENTO</span></h2>
   <p class="docsub" style="max-width:620px;">
@@ -79,10 +80,7 @@ const trechos = [
     <span>— Johann Wolfgang von Goethe · quem não comanda a si mesmo permanece servo.</span>
   </blockquote>
 
-  <div class="cta-stamps">
-    <a class="cta-stamp cta-free" href="/download"><span class="ink"></span>Baixar grátis</a>
-    <a class="cta-stamp cta-buy" href="#"><span class="ink"></span>Adquirir na Amazon — em breve</a>
-  </div>
+  <CtaStamps />
 
   <p class="hint">o documento completo é livre · <span><a href="/download" style="color:var(--brasa2)">solicitar liberação</a></span></p>
 </DossieFrame>

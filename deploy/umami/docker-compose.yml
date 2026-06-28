@@ -1,0 +1,47 @@
+# Umami — analytics self-hosted COMPARTILHADO no VPS (isolado do boringco).
+# Vive em /opt/umami. Segredos em /opt/umami/.env (gerados no VPS, chmod 600).
+# Rede `shared-umami` (externa) = ponto de contato p/ o cloudflared do livro (e do boringco no futuro).
+services:
+  umami-db:
+    image: postgres:16-alpine
+    restart: always
+    environment:
+      POSTGRES_DB: umami
+      POSTGRES_USER: umami
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+    volumes:
+      - umami-db-data:/var/lib/postgresql/data
+    networks: [umami-internal]
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U umami -d umami"]
+      interval: 10s
+      timeout: 5s
+      retries: 6
+
+  umami:
+    image: ghcr.io/umami-software/umami:postgresql-latest
+    restart: always
+    environment:
+      DATABASE_URL: postgresql://umami:${POSTGRES_PASSWORD}@umami-db:5432/umami
+      DATABASE_TYPE: postgresql
+      APP_SECRET: ${APP_SECRET}
+    depends_on:
+      umami-db:
+        condition: service_healthy
+    expose:
+      - "3000"
+    networks: [umami-internal, shared-umami]
+    healthcheck:
+      test: ["CMD-SHELL", "node -e \"fetch('http://localhost:3000/api/heartbeat').then(r=>process.exit(r.ok?0:1)).catch(()=>process.exit(1))\""]
+      interval: 20s
+      timeout: 5s
+      retries: 6
+      start_period: 40s
+
+networks:
+  umami-internal:
+  shared-umami:
+    external: true
+
+volumes:
+  umami-db-data:
