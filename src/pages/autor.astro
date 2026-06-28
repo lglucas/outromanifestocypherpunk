@@ -4,6 +4,7 @@ import HoodedFigure from '../components/dossie/svg/HoodedFigure.astro';
 import RedactBlock from '../components/dossie/RedactBlock.astro';
 import Redact from '../components/dossie/Redact.astro';
 import Stamp from '../components/dossie/Stamp.astro';
+import CtaStamps from '../components/dossie/CtaStamps.astro';
 export const prerender = false;
 const desc = 'O informante: o advogado-programador que construiu máquinas de compliance e vigilância — e agora entrega o dossiê. Mais um manifesto cypherpunk, de quem esteve dos dois lados.';
 const jsonLd = {
@@ -67,10 +68,7 @@ const jsonLd = {
     </div>
   </div>
 
-  <div class="cta-stamps">
-    <a class="cta-stamp cta-free" href="/download"><span class="ink"></span>Baixar grátis</a>
-    <a class="cta-stamp cta-buy" href="#"><span class="ink"></span>Adquirir na Amazon — em breve</a>
-  </div>
+  <CtaStamps />
 
   <p class="hint">a fonte entregou tudo · <span><a href="/livro" style="color:var(--brasa2)">ver o documento</a></span></p>
 </DossieFrame>
