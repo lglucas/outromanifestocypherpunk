@@ -10,3 +10,6 @@ dist/
 # Bancos geo-IP (baixados no build; grandes, licença CC DB-IP)
 data/*.mmdb
 data/*.mmdb.gz
+
+# Fontes baixadas p/ gerar a OG (one-off; o og.png gerado É versionado)
+scripts/fonts/

@@ -1,0 +1,36 @@
+---
+// SEO head: meta description + Open Graph + Twitter card + canonical + JSON-LD.
+interface Props {
+  title: string;
+  description: string;
+  path?: string;
+  image?: string;
+  type?: string;
+  jsonLd?: Record<string, unknown> | Record<string, unknown>[];
+}
+const site = Astro.site?.href ?? 'https://outromanifesto.space/';
+const { title, description, path = '/', image = '/og.png', type = 'website', jsonLd } = Astro.props;
+const url = new URL(path, site).href;
+const img = new URL(image, site).href;
+const ld = jsonLd ? (Array.isArray(jsonLd) ? jsonLd : [jsonLd]) : [];
+---
+<title>{title}</title>
+<meta name="description" content={description} />
+<link rel="canonical" href={url} />
+
+<meta property="og:type" content={type} />
+<meta property="og:site_name" content="O Outro Manifesto Cypherpunk" />
+<meta property="og:locale" content="pt_BR" />
+<meta property="og:title" content={title} />
+<meta property="og:description" content={description} />
+<meta property="og:url" content={url} />
+<meta property="og:image" content={img} />
+<meta property="og:image:width" content="1200" />
+<meta property="og:image:height" content="630" />
+
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content={title} />
+<meta name="twitter:description" content={description} />
+<meta name="twitter:image" content={img} />
+
+{ld.map((obj) => <script type="application/ld+json" set:html={JSON.stringify(obj)} />)}
