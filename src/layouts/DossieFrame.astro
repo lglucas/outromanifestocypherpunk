@@ -7,6 +7,7 @@ import Crosshair from '../components/dossie/svg/Crosshair.astro';
 import AnarchistA from '../components/dossie/svg/AnarchistA.astro';
 import ReopenTerminal from '../components/ReopenTerminal.astro';
 import Seo from '../components/Seo.astro';
+import { UMAMI_SRC, UMAMI_WEBSITE_ID } from '../config/analytics';
 interface Props {
   title?: string;
   current?: string;
@@ -29,6 +30,7 @@ const {
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <Seo title={title} description={description} path={current} type={ogType} jsonLd={jsonLd} />
+    {UMAMI_WEBSITE_ID && <script defer is:inline src={UMAMI_SRC} data-website-id={UMAMI_WEBSITE_ID} data-do-not-track="true"></script>}
   </head>
   <body class="dossie-body paper-grain">
     <Atmosphere />
