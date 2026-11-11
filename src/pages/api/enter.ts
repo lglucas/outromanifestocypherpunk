@@ -1,11 +1,12 @@
 import type { APIRoute } from 'astro';
 import { subscribeLead, buildConsentNote, validateEmail } from '../../features/lead-capture';
 import { GATE_COOKIE } from '../../features/terminal/gate';
+import { isLang } from '../../features/i18n/detect-locale';
 
 export const prerender = false;
 
 export const POST: APIRoute = async ({ request, locals, cookies }) => {
-  let body: { name?: string; email?: string };
+  let body: { name?: string; email?: string; lang?: string };
   try {
     body = await request.json();
   } catch {
@@ -13,6 +14,8 @@ export const POST: APIRoute = async ({ request, locals, cookies }) => {
   }
   const name = (body.name ?? '').trim();
   const email = (body.email ?? '').trim();
+  // D3: idioma do lead (pt|en) vira atributo no Listmonk; qualquer outra coisa cai em pt.
+  const lang = isLang(body.lang) ? body.lang : 'pt';
   // Defesa server-side: o cliente já valida em loop, mas não confiamos no cliente.
   if (!name || !validateEmail(email).ok) {
     return new Response(JSON.stringify({ ok: false, error: 'invalid' }), { status: 422 });
@@ -28,7 +31,7 @@ export const POST: APIRoute = async ({ request, locals, cookies }) => {
       token: process.env.LISTMONK_API_TOKEN ?? '',
       listId: Number(process.env.LISTMONK_LIST_ID ?? 0),
     },
-    { consentimento: buildConsentNote(new Date().toISOString()) },
+    { consentimento: buildConsentNote(new Date().toISOString(), lang), lang },
   );
 
   cookies.set(GATE_COOKIE, '1', {

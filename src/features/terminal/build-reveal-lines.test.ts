@@ -40,3 +40,30 @@ describe('buildRevealLines', () => {
     expect(lines).not.toMatch(/não me rastreie/i);
   });
 });
+
+describe('buildRevealLines (EN)', () => {
+  it('rótulos em inglês, dados reais iguais', () => {
+    const lines = buildRevealLines('Lucas', server as any, fp as any, 'en').join('\n');
+    expect(lines).toContain('> Lucas. noted.');
+    expect(lines).toContain('IP ADDRESS');
+    expect(lines).toContain('189.45.10.20');
+    expect(lines).toContain('VIVO S.A.');
+    expect(lines).toContain('PORTO ALEGRE [±25km]');
+    expect(lines).toContain('8 cores');
+    expect(lines).not.toContain('ENDEREÇO IP');
+  });
+
+  it('bateria e Do Not Track em inglês', () => {
+    const lines = buildRevealLines('L', server as any, fp as any, 'en').join('\n');
+    expect(lines).toMatch(/charge it before it dies/);
+    expect(lines).toMatch(/do not track/i);
+  });
+
+  it('degradação graciosa também em EN', () => {
+    const bare = { ip: null, geo: { country: null, region: null, city: null, isp: null, accuracyKm: null } };
+    const fpBare = { ...fp, gpu: null, doNotTrack: false, battery: 'unknown' as const };
+    const lines = buildRevealLines('L', bare as any, fpBare as any, 'en').join('\n');
+    expect(lines).not.toContain('IP ADDRESS');
+    expect(lines).not.toContain('GRAPHICS CARD');
+  });
+});
