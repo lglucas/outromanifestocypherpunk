@@ -11,7 +11,11 @@ describe('shouldShowTerminal', () => {
   it('não mostra para crawler (SEO)', () => {
     expect(shouldShowTerminal({ path: '/', hasPassed: false, isCrawler: true })).toBe(false);
   });
+  it('mostra também na home EN', () => {
+    expect(shouldShowTerminal({ path: '/en', hasPassed: false, isCrawler: false })).toBe(true);
+  });
   it('não mostra em links diretos de conteúdo', () => {
+    expect(shouldShowTerminal({ path: '/en/book', hasPassed: false, isCrawler: false })).toBe(false);
     expect(shouldShowTerminal({ path: '/livro', hasPassed: false, isCrawler: false })).toBe(false);
   });
   it('expõe o nome do cookie', () => {
