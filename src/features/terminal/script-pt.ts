@@ -58,7 +58,7 @@ export const SCRIPT_PT = {
   handoff: ['> bom. não diz que eu não avisei.'],
   denied: ['> tarde demais. você já entrou. teus dados já são meus.'],
   // D3: prompts e rótulos da revelação também vivem no roteiro (por idioma).
-  prompts: { name: '_ >', email: '_ > [ S = aceito ]', answer: '_ >' },
+  prompts: { name: '_ >', email: '_ >', answer: '_ >' },
   reveal: {
     noted: (name: string) => `> ${name}. anotado.`,
     intro: '> deixa eu te mostrar o que você me deu sem perceber, só por estar aqui:',

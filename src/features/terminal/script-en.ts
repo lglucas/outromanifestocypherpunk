@@ -58,7 +58,7 @@ export const SCRIPT_EN: TerminalScript = {
   ],
   handoff: ['> good. don’t say I didn’t warn you.'],
   denied: ['> too late. you’re already in. your data is already mine.'],
-  prompts: { name: '_ >', email: '_ > [ Y = I accept ]', answer: '_ >' },
+  prompts: { name: '_ >', email: '_ >', answer: '_ >' },
   reveal: {
     noted: (name: string) => `> ${name}. noted.`,
     intro: '> let me show you what you handed me without noticing, just by being here:',
