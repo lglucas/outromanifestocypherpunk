@@ -1,0 +1,75 @@
+---
+// Anexo C (aviso de lançamento + liberação 22/05/2028), compartilhado por `/download` e `/en/download`. D3.
+import DossieFrame from '../../layouts/DossieFrame.astro';
+import { AMAZON_URL } from '../../config/links';
+import { t } from '../../i18n/ui';
+import { download as pt } from '../../i18n/content/download.pt';
+import { download as en } from '../../i18n/content/download.en';
+import type { Lang } from '../../i18n/routes';
+interface Props { lang: Lang }
+const { lang } = Astro.props;
+const c = lang === 'en' ? en : pt;
+const d = t(lang);
+const formCfg = JSON.stringify({ lang, name: c.leadName, msg: c.msg });
+---
+<DossieFrame lang={lang} routeKey="download" title={c.title} description={c.description}>
+  <div class="folha-tag">{c.tag}</div>
+  <h2 class="block">{c.h2a}<span class="accent">{c.h2b}</span></h2>
+
+  <div class="liberation">
+    <h3>{c.h3}</h3>
+    <p class="intro" set:html={c.introHtml} />
+    <form class="capture" data-capture data-cfg={formCfg} novalidate>
+      <input type="email" name="email" placeholder={c.placeholder} aria-label={c.emailAria} />
+      <button class="btn-notify" type="submit">{c.button}</button>
+    </form>
+    <div class="capture-ok" data-capture-msg role="status" aria-live="polite"></div>
+
+    <p style="font-size:12px;color:var(--cinza-morto);letter-spacing:.04em;margin:0 0 20px;max-width:560px;line-height:1.6;">{c.privacyLine}</p>
+
+    <div class="cta-stamps">
+      <span class="cta-stamp cta-free cta-disabled"><span class="ink"></span>{c.freeStamp}</span>
+      {AMAZON_URL ? (
+        <a class="cta-stamp cta-buy" href={AMAZON_URL} target="_blank" rel="noopener"><span class="ink"></span>{d.ctaAmazon}</a>
+      ) : (
+        <span class="cta-stamp cta-buy cta-disabled"><span class="ink"></span>{d.ctaAmazonSoon}</span>
+      )}
+    </div>
+    <style>.cta-disabled { cursor: default; opacity: .7; }</style>
+  </div>
+
+  <p class="hint">{c.hintA}<span>{c.hintB}</span></p>
+</DossieFrame>
+
+<script>
+  import { validateEmail } from '../../features/lead-capture/validate-email';
+  const form = document.querySelector<HTMLFormElement>('[data-capture]');
+  const msg = document.querySelector<HTMLElement>('[data-capture-msg]');
+  const cfg = JSON.parse(form?.dataset.cfg ?? '{}') as {
+    lang: string; name: string; msg: Record<'invalid' | 'processing' | 'ok' | 'fail', string>;
+  };
+  form?.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    if (!msg) return;
+    const input = form.querySelector<HTMLInputElement>('input[name="email"]');
+    const email = (input?.value ?? '').trim();
+    if (!validateEmail(email).ok) {
+      msg.style.color = 'var(--alarme)';
+      msg.textContent = cfg.msg.invalid;
+      return;
+    }
+    msg.style.color = 'var(--brasa2)';
+    msg.textContent = cfg.msg.processing;
+    try {
+      const res = await fetch('/api/enter', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ name: cfg.name, email, lang: cfg.lang }),
+      });
+      msg.textContent = res.ok ? cfg.msg.ok : cfg.msg.fail;
+      if (res.ok && input) input.value = '';
+    } catch {
+      msg.textContent = cfg.msg.fail;
+    }
+  });
+</script>

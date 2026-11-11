@@ -1,0 +1,50 @@
+---
+// Home do dossiê (ARQUIVO Nº 0001), compartilhada por `/` e `/en`. Sprint D3.
+import DossieFrame from '../../layouts/DossieFrame.astro';
+import Terminal from '../Terminal.astro';
+import SubjectCard from '../SubjectCard.astro';
+import Stamp from '../dossie/Stamp.astro';
+import Testimonials from '../dossie/Testimonials.astro';
+import CtaStamps from '../dossie/CtaStamps.astro';
+import { home as pt } from '../../i18n/content/home.pt';
+import { home as en } from '../../i18n/content/home.en';
+import type { Lang } from '../../i18n/routes';
+interface Props { lang: Lang }
+const { lang } = Astro.props;
+const c = lang === 'en' ? en : pt;
+const { showTerminal } = Astro.locals;
+---
+{showTerminal && <Terminal lang={lang} />}
+<DossieFrame lang={lang} routeKey="home" title={c.title} description={c.description} jsonLd={c.jsonLd}>
+  <h1 class="arquivo-no">{c.h1}<span class="you" data-egg="nome">{c.you}</span></h1>
+  <p class="docsub">{c.docsub}</p>
+
+  <div class="folha-tag">{c.subjectTag}</div>
+  <SubjectCard />
+
+  <p class="tese-home">{c.thesisA}<span style="color:var(--brasa2)">{c.thesisB}</span></p>
+
+  <p class="slogan-unico">{c.sloganA}<span>{c.sloganB}</span></p>
+
+  <div class="stamp-row">
+    <Stamp big rot={1}>DON'T TRUST, VERIFY</Stamp>
+    <Stamp big tone="cold" rot={2}>CODE IS LAW</Stamp>
+    <Stamp big rot={3}>PRIVACY IS NORMAL</Stamp>
+    <Stamp big tone="red" rot={4}>FREEDOM OVER CONVENIENCE</Stamp>
+  </div>
+
+  <Testimonials />
+
+  <CtaStamps />
+
+  <p class="hint">{c.hintA}<span>{c.hintB}</span></p>
+</DossieFrame>
+
+<style>
+  .tese-home { font-family: var(--font-display); font-size: clamp(24px, 4.5vw, 44px);
+    line-height: 1.1; margin: 32px 0 8px; text-transform: uppercase; letter-spacing: .01em; color: var(--osso); }
+  .slogan-unico { font-family: var(--font-corpo); font-size: clamp(15px, 2.2vw, 19px);
+    line-height: 1.6; color: var(--osso); border-left: 3px solid var(--brasa); padding-left: 16px;
+    margin: 0 0 10px; max-width: 680px; }
+  .slogan-unico span { color: var(--cinza-morto); }
+</style>

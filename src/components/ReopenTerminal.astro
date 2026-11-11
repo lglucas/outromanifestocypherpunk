@@ -1,7 +1,10 @@
 ---
-// Botão discreto que limpa o cookie do portão e recarrega -> o terminal volta.
+// Botão discreto que limpa o cookie do portão e volta à home do idioma -> o terminal volta. D3: i18n.
+import { pathFor } from '../i18n/routes';
+import { t, langOf } from '../i18n/ui';
+const lang = langOf(Astro.currentLocale);
 ---
-<button class="reopen" data-reopen>› reabrir transmissão</button>
+<button class="reopen" data-reopen data-home={pathFor('home', lang)}>{t(lang).reopen}</button>
 
 <style>
   .reopen { position: fixed; bottom: 12px; right: 12px; z-index: 50; background: transparent;
@@ -11,8 +14,9 @@
 </style>
 
 <script>
-  document.querySelector('[data-reopen]')?.addEventListener('click', () => {
+  const btn = document.querySelector<HTMLElement>('[data-reopen]');
+  btn?.addEventListener('click', () => {
     document.cookie = 'livro_entered=; path=/; max-age=0';
-    window.location.href = '/';
+    window.location.href = btn.dataset.home ?? '/';
   });
 </script>

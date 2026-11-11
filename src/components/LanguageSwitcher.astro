@@ -1,13 +1,22 @@
 ---
-import { languages, type Lang } from '../i18n/ui';
-const current = (Astro.currentLocale ?? 'pt') as Lang;
-const base: Record<Lang, string> = { pt: '/', en: '/en', de: '/de' };
+// Seletor PT/EN: liga à página equivalente com ?lang= (o middleware grava o cookie e limpa a URL). D3.
+import { pathFor, LANGS, type Lang, type RouteKey } from '../i18n/routes';
+interface Props { lang: Lang; routeKey: RouteKey }
+const { lang, routeKey } = Astro.props;
+const label: Record<Lang, string> = { pt: 'PT', en: 'EN' };
+const name: Record<Lang, string> = { pt: 'Português', en: 'English' };
 ---
-<nav class="flex gap-3 font-mono text-xs">
-  {Object.entries(languages).map(([code, label]) => (
-    <a href={base[code as Lang]}
-       class={code === current ? 'text-neutral-100 underline' : 'text-neutral-500 hover:text-neutral-300'}>
-      {label}
-    </a>
+<nav class="langsw" aria-label={lang === 'en' ? 'Language' : 'Idioma'}>
+  {LANGS.map((code) => (
+    <a href={`${pathFor(routeKey, code)}?lang=${code}`} hreflang={code === 'pt' ? 'pt-BR' : 'en'}
+       lang={code === 'pt' ? 'pt-BR' : 'en'} title={name[code]}
+       aria-current={code === lang ? 'true' : undefined}>{label[code]}</a>
   ))}
 </nav>
+
+<style>
+  .langsw { display: inline-flex; gap: 6px; font-family: var(--font-mono); font-size: 11px; letter-spacing: .12em; }
+  .langsw a { color: var(--cinza-morto); text-decoration: none; padding: 0 2px; }
+  .langsw a:hover { color: var(--brasa-claro); }
+  .langsw a[aria-current] { color: var(--osso); border-bottom: 1px solid var(--brasa); }
+</style>

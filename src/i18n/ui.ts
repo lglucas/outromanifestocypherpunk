@@ -1,30 +1,82 @@
-export const languages = { pt: 'Português', en: 'English', de: 'Deutsch' } as const;
-export type Lang = keyof typeof languages;
+// Dicionário de UI compartilhada (moldura, abas, CTAs, tarjas). PT + EN. Sprint D3.
+import type { Lang } from './routes';
+export type { Lang } from './routes';
 
-export const ui = {
-  pt: {
-    'nav.home': 'Início', 'nav.book': 'O Livro', 'nav.author': 'O Autor', 'nav.download': 'Baixar',
-    'site.title': 'O Outro Manifesto Cypherpunk',
-    'site.tagline': 'por que a tecnologia que prometia libertar virou braço do controle',
-    'cta.amazon': 'Comprar na Amazon', 'cta.download': 'Baixar grátis',
-    'wip': 'Em construção — D1.',
-  },
-  en: {
-    'nav.home': 'Home', 'nav.book': 'The Book', 'nav.author': 'The Author', 'nav.download': 'Download',
-    'site.title': 'The Other Cypherpunk Manifesto',
-    'site.tagline': 'why the technology that promised to free us became an arm of control',
-    'cta.amazon': 'Buy on Amazon', 'cta.download': 'Download free',
-    'wip': 'Book translation coming soon.',
-  },
-  de: {
-    'nav.home': 'Start', 'nav.book': 'Das Buch', 'nav.author': 'Der Autor', 'nav.download': 'Download',
-    'site.title': 'Das andere Cypherpunk-Manifest',
-    'site.tagline': 'warum die Technik, die befreien sollte, zum Arm der Kontrolle wurde',
-    'cta.amazon': 'Bei Amazon kaufen', 'cta.download': 'Kostenlos laden',
-    'wip': 'Buchübersetzung in Kürze.',
-  },
-} as const;
+const pt = {
+  htmlLang: 'pt-BR',
+  ogLocale: 'pt_BR',
+  timeLocale: 'pt-BR',
+  siteTitle: 'O Outro Manifesto Cypherpunk',
+  siteTagline: 'por que a tecnologia que prometia libertar virou braço do controle',
+  classbar: 'CLASSIFICADO · NÍVEL VERMELHO',
+  sector: 'SETOR:',
+  agency: 'DEPARTAMENTO DE INFERÊNCIA TOTAL',
+  division: 'DIVISÃO DE ANÁLISE COMPORTAMENTAL',
+  protocol: 'PROTOCOLO 0001 · © TODOS OS DIREITOS RESERVADOS · CC BY-SA 4.0 EM 22/05/2028',
+  lastSweep: 'última varredura · operadora',
+  ghost: 'não há para onde correr',
+  informant: 'o informante',
+  privacy: 'privacidade',
+  tabsAria: 'Anexos do dossiê',
+  tabs: {
+    home: ['ANEXO —', 'SUJEITO'],
+    book: ['ANEXO A', 'DOCUMENTO'],
+    author: ['ANEXO B', 'INFORMANTE'],
+    download: ['ANEXO C', 'LIBERAÇÃO'],
+  } as Record<'home' | 'book' | 'author' | 'download', [string, string]>,
+  ctaFree: 'Livre em 22/05/2028',
+  ctaAmazon: 'Adquirir na Amazon',
+  ctaAmazonSoon: 'Adquirir na Amazon — em breve',
+  declassified: 'DESCLASSIFICADO',
+  reveal: 'REVELAR',
+  redactAgain: 'RE-TARJAR',
+  reopen: '› reabrir transmissão',
+  testimonials: 'Testemunhos',
+  testimonialsEmpty: '[ depoimentos de leitores chegando — anexados em breve ]',
+};
 
-export function t(lang: Lang, key: keyof typeof ui['pt']): string {
-  return ui[lang][key] ?? ui.pt[key];
+export type UiDict = typeof pt;
+
+const en: UiDict = {
+  htmlLang: 'en',
+  ogLocale: 'en_US',
+  timeLocale: 'en-GB',
+  siteTitle: 'The Other Cypherpunk Manifesto',
+  siteTagline: 'why the technology that promised to set us free became an arm of control',
+  classbar: 'CLASSIFIED · LEVEL RED',
+  sector: 'SECTOR:',
+  agency: 'DEPARTMENT OF TOTAL INFERENCE',
+  division: 'BEHAVIORAL ANALYSIS DIVISION',
+  protocol: 'PROTOCOL 0001 · © ALL RIGHTS RESERVED · CC BY-SA 4.0 ON 22 MAY 2028',
+  lastSweep: 'last sweep · carrier',
+  ghost: 'there is nowhere to run',
+  informant: 'the informant',
+  privacy: 'privacy',
+  tabsAria: 'Dossier annexes',
+  tabs: {
+    home: ['ANNEX —', 'SUBJECT'],
+    book: ['ANNEX A', 'DOCUMENT'],
+    author: ['ANNEX B', 'INFORMANT'],
+    download: ['ANNEX C', 'RELEASE'],
+  },
+  ctaFree: 'Free on 22 May 2028',
+  ctaAmazon: 'Get it on Amazon',
+  ctaAmazonSoon: 'Get it on Amazon — soon',
+  declassified: 'DECLASSIFIED',
+  reveal: 'REVEAL',
+  redactAgain: 'REDACT AGAIN',
+  reopen: '› reopen transmission',
+  testimonials: 'Testimony',
+  testimonialsEmpty: '[ reader testimony incoming — to be attached shortly ]',
+};
+
+export const ui: Record<Lang, UiDict> = { pt, en };
+
+export function t(lang: Lang): UiDict {
+  return ui[lang] ?? ui.pt;
+}
+
+/** Idioma a partir do Astro.currentLocale (qualquer coisa ≠ 'en' é PT). */
+export function langOf(locale: string | undefined): Lang {
+  return locale === 'en' ? 'en' : 'pt';
 }

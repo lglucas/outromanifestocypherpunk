@@ -1,26 +1,39 @@
 ---
-// SEO head: meta description + Open Graph + Twitter card + canonical + JSON-LD.
+// SEO head: description + Open Graph + Twitter + canonical + hreflang (pt-BR/en/x-default) + JSON-LD. D3: i18n.
+import { pathFor, type Lang, type RouteKey } from '../i18n/routes';
+import { t } from '../i18n/ui';
 interface Props {
   title: string;
   description: string;
-  path?: string;
+  lang: Lang;
+  routeKey: RouteKey;
   image?: string;
   type?: string;
   jsonLd?: Record<string, unknown> | Record<string, unknown>[];
 }
 const site = Astro.site?.href ?? 'https://outromanifesto.space/';
-const { title, description, path = '/', image = '/og.png', type = 'website', jsonLd } = Astro.props;
-const url = new URL(path, site).href;
-const img = new URL(image, site).href;
+const { title, description, lang, routeKey, type = 'website', jsonLd } = Astro.props;
+const image = Astro.props.image ?? (lang === 'en' ? '/og-en.png' : '/og.png');
+const abs = (p: string) => new URL(p, site).href;
+const url = abs(pathFor(routeKey, lang));
+const ptUrl = abs(pathFor(routeKey, 'pt'));
+const enUrl = abs(pathFor(routeKey, 'en'));
+const img = abs(image);
+const d = t(lang);
+const altLocale = t(lang === 'en' ? 'pt' : 'en').ogLocale;
 const ld = jsonLd ? (Array.isArray(jsonLd) ? jsonLd : [jsonLd]) : [];
 ---
 <title>{title}</title>
 <meta name="description" content={description} />
 <link rel="canonical" href={url} />
+<link rel="alternate" hreflang="pt-BR" href={ptUrl} />
+<link rel="alternate" hreflang="en" href={enUrl} />
+<link rel="alternate" hreflang="x-default" href={ptUrl} />
 
 <meta property="og:type" content={type} />
-<meta property="og:site_name" content="O Outro Manifesto Cypherpunk" />
-<meta property="og:locale" content="pt_BR" />
+<meta property="og:site_name" content={d.siteTitle} />
+<meta property="og:locale" content={d.ogLocale} />
+<meta property="og:locale:alternate" content={altLocale} />
 <meta property="og:title" content={title} />
 <meta property="og:description" content={description} />
 <meta property="og:url" content={url} />

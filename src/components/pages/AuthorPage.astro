@@ -1,0 +1,64 @@
+---
+// Anexo B (o informante), compartilhado por `/autor` e `/en/author`. Sprint D3.
+import DossieFrame from '../../layouts/DossieFrame.astro';
+import HoodedFigure from '../dossie/svg/HoodedFigure.astro';
+import RedactBlock from '../dossie/RedactBlock.astro';
+import Redact from '../dossie/Redact.astro';
+import Stamp from '../dossie/Stamp.astro';
+import CtaStamps from '../dossie/CtaStamps.astro';
+import { author as pt } from '../../i18n/content/author.pt';
+import { author as en } from '../../i18n/content/author.en';
+import { pathFor, type Lang } from '../../i18n/routes';
+interface Props { lang: Lang }
+const { lang } = Astro.props;
+const c = lang === 'en' ? en : pt;
+---
+<DossieFrame lang={lang} routeKey="author" title={c.title} description={c.description} ogType="profile" jsonLd={c.jsonLd}>
+  <div class="folha-tag">{c.tag}</div>
+  <h2 class="block">{c.h2a}<span class="accent">{c.h2b}</span></h2>
+  <p class="docsub" style="max-width:620px;">{c.docsub}</p>
+
+  <div class="annexB">
+    <div>
+      <div class="mug">
+        <HoodedFigure />
+        <span class="corner c1"></span><span class="corner c2"></span>
+        <span class="corner c3"></span><span class="corner c4"></span>
+        <span class="scanid"></span>
+      </div>
+      <div class="mug-cap">{c.mugCap}</div>
+    </div>
+    <div>
+      {c.fields.map((f) => (
+        <div class="field"><span class="k">{f.k}</span><span class={f.big ? 'v big' : 'v'} set:html={f.vHtml} /></div>
+      ))}
+      <div class="field"><span class="k">{c.afterK}</span><span class="v"><Fragment set:html={c.afterHtml} /> <Stamp tone="cold" rot={3}>COMPLIANCE.CC</Stamp></span></div>
+
+      <div class="folha-tag">{c.confessionTag}</div>
+      <RedactBlock>
+        <p style="margin:0;">{c.confession}</p>
+      </RedactBlock>
+    </div>
+  </div>
+
+  <div class="folha-tag">{c.testimonyTag}</div>
+  <div class="annexB">
+    <div>
+      <div class="mug" style="max-width:160px;">
+        <HoodedFigure />
+        <span class="corner c1"></span><span class="corner c2"></span>
+        <span class="corner c3"></span><span class="corner c4"></span>
+      </div>
+      <div class="mug-cap">{c.witnessCap}</div>
+    </div>
+    <div class="testimony">
+      <blockquote>{c.quoteA}<Redact>{c.quoteRedacted}</Redact>{c.quoteB}</blockquote>
+      <span class="signature">{c.signature}</span>
+      <div class="sig-meta">{c.sigMeta}</div>
+    </div>
+  </div>
+
+  <CtaStamps />
+
+  <p class="hint">{c.hintA}<span><a href={pathFor('book', lang)} style="color:var(--brasa2)">{c.hintLink}</a></span></p>
+</DossieFrame>

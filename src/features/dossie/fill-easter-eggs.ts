@@ -1,9 +1,10 @@
 import { readVisitorSession } from './visitor-session';
 import { formatSubject } from './format-subject';
+import { docLang } from './reveal-state';
 
 export function fillEasterEggs(doc: Document = document): void {
   const s = readVisitorSession();
-  const f = formatSubject(s);
+  const f = formatSubject(s, docLang(doc));
   const map: Record<string, string> = {
     nome: f.nome,
     localizacao: f.localizacao,

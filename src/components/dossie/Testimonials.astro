@@ -1,18 +1,22 @@
 ---
-// Depoimentos (data-driven). Vazio → placeholder "chegando". Pronto p/ o conteúdo da semana.
+// Depoimentos (data-driven). Vazio → placeholder "chegando". D3: filtra pelo idioma da página.
 import { testimonials } from '../../features/dossie/testimonials';
+import { t, langOf } from '../../i18n/ui';
+const lang = langOf(Astro.currentLocale);
+const d = t(lang);
+const list = testimonials.filter((x) => !x.lang || x.lang === lang);
 ---
-<div class="folha-tag">Testemunhos</div>
-{testimonials.length === 0 ? (
-  <p class="tdepo-empty">[ depoimentos de leitores chegando — anexados em breve ]</p>
+<div class="folha-tag">{d.testimonials}</div>
+{list.length === 0 ? (
+  <p class="tdepo-empty">{d.testimonialsEmpty}</p>
 ) : (
   <div class="tdepo-grid">
-    {testimonials.map((t) => (
+    {list.map((x) => (
       <figure class="tdepo">
-        <blockquote>“{t.quote}”</blockquote>
+        <blockquote>“{x.quote}”</blockquote>
         <figcaption>
-          <span class="sig">{t.author}</span>
-          {t.meta && <span class="m">{t.meta}</span>}
+          <span class="sig">{x.author}</span>
+          {x.meta && <span class="m">{x.meta}</span>}
         </figcaption>
       </figure>
     ))}
