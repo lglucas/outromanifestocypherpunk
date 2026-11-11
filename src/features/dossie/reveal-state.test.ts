@@ -8,4 +8,8 @@ describe('nextReveal', () => {
   it('revelado -> tarjado, label REVELAR', () => {
     expect(nextReveal(true)).toEqual({ revealed: false, label: 'REVELAR' });
   });
+  it('EN: REVEAL / REDACT AGAIN', () => {
+    expect(nextReveal(false, 'en')).toEqual({ revealed: true, label: 'REDACT AGAIN' });
+    expect(nextReveal(true, 'en')).toEqual({ revealed: false, label: 'REVEAL' });
+  });
 });

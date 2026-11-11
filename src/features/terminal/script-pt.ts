@@ -57,4 +57,24 @@ export const SCRIPT_PT = {
   ],
   handoff: ['> bom. não diz que eu não avisei.'],
   denied: ['> tarde demais. você já entrou. teus dados já são meus.'],
+  // D3: prompts e rótulos da revelação também vivem no roteiro (por idioma).
+  prompts: { name: '_ >', email: '_ > [ S = aceito ]', answer: '_ >' },
+  reveal: {
+    noted: (name: string) => `> ${name}. anotado.`,
+    intro: '> deixa eu te mostrar o que você me deu sem perceber, só por estar aqui:',
+    ip: 'ENDEREÇO IP ....',
+    isp: 'OPERADORA ......',
+    connection: 'CONEXÃO ........',
+    triangulating: '> TRIANGULANDO ORIGEM...',
+    country: '  PAÍS .........',
+    region: '  REGIÃO .......',
+    exitNode: '> NÓ DE SAÍDA ..',
+    machine: '> MÁQUINA ........',
+    cpu: '> PROCESSADOR ....',
+    cores: 'núcleos',
+    gpu: 'PLACA DE VÍDEO .',
+    outro: '> eu não te pedi nada disso. você só chegou. tá começando a entender?',
+  },
 };
+
+export type TerminalScript = typeof SCRIPT_PT;

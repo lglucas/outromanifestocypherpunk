@@ -11,7 +11,7 @@ export default defineConfig({
   integrations: [mdx()],
   i18n: {
     defaultLocale: 'pt',
-    locales: ['pt', 'en', 'de'],
+    locales: ['pt', 'en'],
     routing: { prefixDefaultLocale: false },
   },
   vite: { plugins: [tailwindcss()] },

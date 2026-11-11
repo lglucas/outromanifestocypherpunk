@@ -6,10 +6,10 @@ export interface GateInput {
   isCrawler: boolean;
 }
 
-// O portão só age na home; conteúdo profundo e crawlers passam direto (SEO).
+// O portão só age na home (PT `/` ou EN `/en`); conteúdo profundo e crawlers passam direto (SEO).
 export function shouldShowTerminal({ path, hasPassed, isCrawler }: GateInput): boolean {
   if (isCrawler || hasPassed) return false;
-  return path === '/';
+  return path === '/' || path === '/en' || path === '/en/';
 }
 
 const BOT_RE = /bot|crawl|spider|slurp|bingpreview|facebookexternalhit|embedly|preview/i;

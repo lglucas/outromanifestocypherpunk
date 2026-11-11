@@ -1,12 +1,14 @@
 ---
-// Tarja em bloco (abre de cima p/ baixo ao rolar). Opcional: botão REVELAR/RE-TARJAR.
+// Tarja em bloco (abre de cima p/ baixo ao rolar). Opcional: botão REVELAR/RE-TARJAR. D3: i18n.
+import { t, langOf } from '../../i18n/ui';
 interface Props { withButton?: boolean }
 const { withButton = false } = Astro.props;
+const d = t(langOf(Astro.currentLocale));
 ---
 <div class="redact-group">
   <div class="redact-block">
-    <span class="declass-tag">DESCLASSIFICADO</span>
+    <span class="declass-tag">{d.declassified}</span>
     <slot />
   </div>
-  {withButton && <button class="reveal-btn" data-reveal type="button">REVELAR</button>}
+  {withButton && <button class="reveal-btn" data-reveal type="button">{d.reveal}</button>}
 </div>

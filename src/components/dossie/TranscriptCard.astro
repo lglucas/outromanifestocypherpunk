@@ -1,15 +1,17 @@
 ---
-// Card de transcrição (torto + fita + pin + tarja revelável). Port de 03-dossie.html.
+// Card de transcrição (torto + fita + pin + tarja revelável). Port de 03-dossie.html. D3: i18n.
+import { t, langOf } from '../../i18n/ui';
 interface Props { tilt?: 1 | 2 | 3; freq: string; cap: string }
 const { tilt = 1, freq, cap } = Astro.props;
+const d = t(langOf(Astro.currentLocale));
 ---
 <div class={`transcript tilt${tilt}`}>
   <span class="tape tl"></span><span class="pin tlp"></span>
   <span class="tape tr"></span><span class="pin brp"></span>
   <div class="meta"><span class="freq">FREQ {freq}</span><span>{cap}</span></div>
   <div class="redact-block">
-    <span class="declass-tag">DESCLASSIFICADO</span>
+    <span class="declass-tag">{d.declassified}</span>
     <blockquote><slot /></blockquote>
   </div>
-  <button class="reveal-btn" data-reveal type="button">REVELAR</button>
+  <button class="reveal-btn" data-reveal type="button">{d.reveal}</button>
 </div>

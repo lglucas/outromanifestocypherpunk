@@ -1,4 +1,5 @@
 ---
+// Moldura do dossiê (classbar + agência + abas + rodapé). D3: idioma por prop `lang` + seletor PT/EN.
 import '../styles/global.css';
 import Atmosphere from '../components/dossie/Atmosphere.astro';
 import FolderTabs from '../components/dossie/FolderTabs.astro';
@@ -6,30 +7,29 @@ import Camera from '../components/dossie/svg/Camera.astro';
 import Crosshair from '../components/dossie/svg/Crosshair.astro';
 import AnarchistA from '../components/dossie/svg/AnarchistA.astro';
 import ReopenTerminal from '../components/ReopenTerminal.astro';
+import LanguageSwitcher from '../components/LanguageSwitcher.astro';
 import Seo from '../components/Seo.astro';
 import { UMAMI_SRC, UMAMI_WEBSITE_ID } from '../config/analytics';
+import { pathFor, type Lang, type RouteKey } from '../i18n/routes';
+import { t } from '../i18n/ui';
 interface Props {
-  title?: string;
-  current?: string;
-  description?: string;
+  lang: Lang;
+  routeKey: RouteKey;
+  title: string;
+  description: string;
   ogType?: string;
   jsonLd?: Record<string, unknown> | Record<string, unknown>[];
 }
-const {
-  title = 'O Outro Manifesto Cypherpunk',
-  current = '/',
-  description = 'Você deixou de ser cidadão. Virou usuário. O Outro Manifesto Cypherpunk — por que a tecnologia que prometia libertar virou o braço mais eficiente de controle. Livro grátis (CC BY-SA).',
-  ogType = 'website',
-  jsonLd,
-} = Astro.props;
+const { lang, routeKey, title, description, ogType = 'website', jsonLd } = Astro.props;
+const d = t(lang);
 ---
 <!doctype html>
-<html lang="pt">
+<html lang={d.htmlLang} data-time-locale={d.timeLocale}>
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-    <Seo title={title} description={description} path={current} type={ogType} jsonLd={jsonLd} />
+    <Seo title={title} description={description} lang={lang} routeKey={routeKey} type={ogType} jsonLd={jsonLd} />
     {UMAMI_WEBSITE_ID && <script defer is:inline src={UMAMI_SRC} data-website-id={UMAMI_WEBSITE_ID} data-do-not-track="true"></script>}
   </head>
   <body class="dossie-body paper-grain">
@@ -40,9 +40,10 @@ const {
     <div class="classbar">
       <div class="classbar-in">
         <span class="blink-dot" aria-hidden="true"></span>
-        <span class="cls">CLASSIFICADO · NÍVEL VERMELHO</span>
-        <span class="prot">SETOR: <span data-egg="cidade">—</span></span>
+        <span class="cls">{d.classbar}</span>
+        <span class="prot">{d.sector} <span data-egg="cidade">—</span></span>
         <span class="spacer"></span>
+        <LanguageSwitcher lang={lang} routeKey={routeKey} />
         <span class="prot" data-clock>--:--:--</span>
       </div>
     </div>
@@ -51,23 +52,23 @@ const {
       <header class="dochead">
         <div class="docrow">
           <div class="agency">
-            DEPARTAMENTO DE INFERÊNCIA TOTAL
-            <small>DIVISÃO DE ANÁLISE COMPORTAMENTAL</small>
+            {d.agency}
+            <small>{d.division}</small>
           </div>
           <Camera />
         </div>
-        <FolderTabs current={current} />
+        <FolderTabs current={routeKey} />
       </header>
 
       <main><slot /></main>
 
       <footer class="protocol">
-        <div class="proto-no">PROTOCOLO 0001 · CC BY-SA 4.0</div>
-        <div class="proto-no">última varredura · operadora <span data-egg="operadora">—</span> · gpu <span data-egg="gpu">—</span></div>
-        <div class="ghost">não há para onde correr</div>
+        <div class="proto-no">{d.protocol}</div>
+        <div class="proto-no">{d.lastSweep} <span data-egg="operadora">—</span> · gpu <span data-egg="gpu">—</span></div>
+        <div class="ghost">{d.ghost}</div>
         <div class="authorline">
-          Lucas Lopes Galvão · <a href="/autor">o informante</a> ·
-          <a href="/privacidade">privacidade</a> ·
+          Lucas Lopes Galvão · <a href={pathFor('author', lang)}>{d.informant}</a> ·
+          <a href={pathFor('privacy', lang)}>{d.privacy}</a> ·
           <a href="https://outromanifesto.space">outromanifesto.space</a>
         </div>
       </footer>
@@ -78,7 +79,8 @@ const {
     <script>
       const clock = document.querySelector('[data-clock]');
       if (clock) {
-        const tick = () => { clock.textContent = new Date().toLocaleTimeString('pt-BR'); };
+        const loc = document.documentElement.dataset.timeLocale ?? 'pt-BR';
+        const tick = () => { clock.textContent = new Date().toLocaleTimeString(loc); };
         tick();
         setInterval(tick, 1000);
       }
@@ -94,4 +96,5 @@ const {
 
 <style is:global>
   .dossie-body { margin: 0; min-height: 100vh; }
+  .classbar .langsw { margin-right: 12px; }
 </style>

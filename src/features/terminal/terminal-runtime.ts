@@ -1,5 +1,6 @@
 import { initialState, reduce } from './machine';
-import { SCRIPT_PT } from './script-pt';
+import { getScript } from './script';
+import type { Lang } from '../../i18n/routes';
 import { buildRevealLines } from './build-reveal-lines';
 import { collectFingerprint } from '../visitor-data/client-fingerprint';
 import { validateEmail } from '../lead-capture/validate-email';
@@ -43,30 +44,31 @@ function ask(out: HTMLElement, prompt: string): Promise<string> {
   });
 }
 
-export async function runTerminal(root: HTMLElement) {
+export async function runTerminal(root: HTMLElement, lang: Lang = 'pt') {
+  const SCRIPT = getScript(lang);
   const out = root.querySelector<HTMLElement>('[data-term-out]');
   if (!out) return;
   let s = initialState();
 
-  await typeLines(out, SCRIPT_PT.boot);
+  await typeLines(out, SCRIPT.boot);
   s = reduce(s, { type: 'BOOT_DONE' });
-  await typeLines(out, SCRIPT_PT.contact);
+  await typeLines(out, SCRIPT.contact);
   s = reduce(s, { type: 'CONTACT_DONE' });
 
-  await typeLines(out, SCRIPT_PT.askName);
-  const name = await ask(out, '_ >');
+  await typeLines(out, SCRIPT.askName);
+  const name = await ask(out, SCRIPT.prompts.name);
   s = reduce(s, { type: 'NAME_SUBMIT', value: name });
 
-  await typeLines(out, SCRIPT_PT.askEmail);
+  await typeLines(out, SCRIPT.askEmail);
   let email = '';
   for (;;) {
-    const candidate = await ask(out, '_ > [ S = aceito ]');
+    const candidate = await ask(out, SCRIPT.prompts.email);
     const v = validateEmail(candidate);
     if (v.ok) {
       email = candidate.trim();
       break;
     }
-    await typeLines(out, SCRIPT_PT.emailReject[v.reason]);
+    await typeLines(out, SCRIPT.emailReject[v.reason]);
   }
   s = reduce(s, { type: 'EMAIL_SUBMIT', value: email });
 
@@ -74,7 +76,7 @@ export async function runTerminal(root: HTMLElement) {
   const res = await fetch('/api/enter', {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({ name, email }),
+    body: JSON.stringify({ name, email, lang }),
   })
     .then((r) => r.json())
     .catch(() => ({ ok: false, visitor: { ip: null, geo: {} } }));
@@ -84,23 +86,23 @@ export async function runTerminal(root: HTMLElement) {
   // guarda pro dossiê (D1-C lê do sessionStorage pela chave livro_visitor)
   sessionStorage.setItem('livro_visitor', JSON.stringify({ name, server, fp }));
 
-  await typeLines(out, buildRevealLines(name, server, fp));
+  await typeLines(out, buildRevealLines(name, server, fp, lang));
   s = reduce(s, { type: 'REVEAL_DONE' });
-  await typeLines(out, SCRIPT_PT.confession);
+  await typeLines(out, SCRIPT.confession);
   s = reduce(s, { type: 'CONFESSION_DONE' });
-  await typeLines(out, SCRIPT_PT.question);
+  await typeLines(out, SCRIPT.question);
 
-  const answer = (await ask(out, '_ >')).toUpperCase().startsWith('N') ? 'N' : 'S';
+  const answer = (await ask(out, SCRIPT.prompts.answer)).toUpperCase().startsWith('N') ? 'N' : 'S';
   s = reduce(s, { type: 'ANSWER', value: answer });
 
   if (s.act === 'denied') {
-    await typeLines(out, SCRIPT_PT.denied);
+    await typeLines(out, SCRIPT.denied);
     root.classList.add('term-shutdown');
     await sleep(1800);
   } else {
-    await typeLines(out, SCRIPT_PT.handoff);
+    await typeLines(out, SCRIPT.handoff);
     await sleep(600);
   }
   // handoff e denied entram no dossiê (cookie já setado pelo /api/enter)
-  window.location.href = '/';
+  window.location.href = lang === 'en' ? '/en' : '/';
 }

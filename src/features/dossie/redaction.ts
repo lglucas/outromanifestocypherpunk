@@ -1,4 +1,4 @@
-import { nextReveal } from './reveal-state';
+import { nextReveal, docLang } from './reveal-state';
 
 // Interações do dossiê: revelar tarjas ao rolar + botão toggle + seções dobráveis.
 // Port da mecânica de 03-dossie.html.
@@ -32,7 +32,7 @@ export function initRedaction(doc: Document = document): void {
       const group = btn.closest('.transcript, .redact-group');
       const rb = group?.querySelector<HTMLElement>('.redact-block, .redact');
       if (!rb) return;
-      const state = nextReveal(rb.classList.contains('revealed'));
+      const state = nextReveal(rb.classList.contains('revealed'), docLang(doc));
       rb.classList.toggle('revealed', state.revealed);
       btn.classList.toggle('done', state.revealed);
       btn.textContent = state.label;

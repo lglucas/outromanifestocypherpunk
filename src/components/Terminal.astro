@@ -1,7 +1,10 @@
 ---
-// Casca visual do terminal. Estética CRT herdada de prototype-lab-v2/01-terminal.html.
+// Casca visual do terminal. Estética CRT herdada de prototype-lab-v2/01-terminal.html. D3: idioma via prop.
+import type { Lang } from '../i18n/routes';
+interface Props { lang?: Lang }
+const { lang = 'pt' } = Astro.props;
 ---
-<div class="term-root" data-term-root>
+<div class="term-root" data-term-root data-lang={lang}>
   <div class="term-screen">
     <pre class="term-out" data-term-out></pre>
   </div>
@@ -22,5 +25,5 @@
 <script>
   import { runTerminal } from '../features/terminal/terminal-runtime';
   const root = document.querySelector<HTMLElement>('[data-term-root]');
-  if (root) runTerminal(root);
+  if (root) runTerminal(root, root.dataset.lang === 'en' ? 'en' : 'pt');
 </script>

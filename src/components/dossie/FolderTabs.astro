@@ -1,18 +1,17 @@
 ---
-// Abas de pasta = navegação entre os anexos (links). Visual port de 03-dossie.html.
-interface Props { current?: string }
-const { current = '/' } = Astro.props;
-const tabs = [
-  { no: 'ANEXO —', label: 'SUJEITO', href: '/' },
-  { no: 'ANEXO A', label: 'DOCUMENTO', href: '/livro' },
-  { no: 'ANEXO B', label: 'INFORMANTE', href: '/autor' },
-  { no: 'ANEXO C', label: 'LIBERAÇÃO', href: '/download' },
-];
+// Abas de pasta = navegação entre os anexos (links por idioma). Visual port de 03-dossie.html. D3: i18n.
+import { pathFor, type RouteKey } from '../../i18n/routes';
+import { t, langOf } from '../../i18n/ui';
+interface Props { current?: RouteKey }
+const { current = 'home' } = Astro.props;
+const lang = langOf(Astro.currentLocale);
+const d = t(lang);
+const keys = ['home', 'book', 'author', 'download'] as const;
 ---
-<nav class="tabs" aria-label="Anexos do dossiê">
-  {tabs.map((t) => (
-    <a class="tab" href={t.href} aria-current={current === t.href ? 'page' : undefined}>
-      <span class="num">{t.no}</span>{t.label}
+<nav class="tabs" aria-label={d.tabsAria}>
+  {keys.map((k) => (
+    <a class="tab" href={pathFor(k, lang)} aria-current={current === k ? 'page' : undefined}>
+      <span class="num">{d.tabs[k][0]}</span>{d.tabs[k][1]}
     </a>
   ))}
 </nav>

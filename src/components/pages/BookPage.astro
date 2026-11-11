@@ -1,0 +1,63 @@
+---
+// Anexo A (o documento), compartilhado por `/livro` e `/en/book`. Sprint D3.
+import DossieFrame from '../../layouts/DossieFrame.astro';
+import TranscriptCard from '../dossie/TranscriptCard.astro';
+import Foldable from '../dossie/Foldable.astro';
+import CtaStamps from '../dossie/CtaStamps.astro';
+import { book as pt } from '../../i18n/content/book.pt';
+import { book as en } from '../../i18n/content/book.en';
+import { pathFor, type Lang } from '../../i18n/routes';
+interface Props { lang: Lang }
+const { lang } = Astro.props;
+const c = lang === 'en' ? en : pt;
+---
+<DossieFrame lang={lang} routeKey="book" title={c.title} description={c.description}>
+  <div class="folha-tag">{c.tag}</div>
+  <h2 class="block">{c.h2a}<span class="accent">{c.h2b}</span></h2>
+  <p class="docsub" style="max-width:620px;">{c.docsub}</p>
+  <p class="meta-livro">{c.meta}</p>
+
+  <div class="folha-tag">{c.indexTag}</div>
+  <div class="evidencias">
+    {c.chapters.map(([n, titulo]) => (
+      <div class="evrow"><span class="evno">{n}</span><span class="evtit">{titulo}</span></div>
+    ))}
+  </div>
+
+  <div class="folha-tag">{c.interceptTag}</div>
+  {c.excerpts.map((x) => (
+    <TranscriptCard tilt={x.tilt} freq={x.freq} cap={x.cap}>{x.text}</TranscriptCard>
+  ))}
+
+  <div class="folha-tag">{c.sampleTag}</div>
+  <div class="sample">
+    {c.folds.map((f, i) => (
+      <Foldable title={f.title} seal={f.seal}>
+        {f.paras.map((p, j) => (
+          <p>{i === 0 && j === 0 && <span class="dropcap">{c.dropcap}</span>}{p}</p>
+        ))}
+      </Foldable>
+    ))}
+  </div>
+
+  <blockquote class="epigrafe">
+    {c.epigraph}
+    <span>{c.epigraphCredit}</span>
+  </blockquote>
+
+  <CtaStamps />
+
+  <p class="hint">{c.hintA}<span><a href={pathFor('download', lang)} style="color:var(--brasa2)">{c.hintLink}</a></span></p>
+</DossieFrame>
+
+<style>
+  .evidencias { border: 1px solid #262a2f; border-radius: 6px; overflow: hidden; }
+  .evrow { display: flex; gap: 14px; align-items: baseline; padding: 10px 16px; border-bottom: 1px solid #1c2025; }
+  .evrow:last-child { border-bottom: none; }
+  .evno { font-family: var(--font-mono); font-size: 11px; color: var(--aco2); letter-spacing: .12em; flex: none; min-width: 60px; }
+  .evtit { font-family: var(--font-corpo); color: var(--osso); }
+  .meta-livro { font-family: var(--font-mono); font-size: 12px; letter-spacing: .08em; color: var(--aco2); margin: 4px 0 0; }
+  .epigrafe { font-family: var(--font-corpo); font-size: 18px; line-height: 1.6; color: var(--osso);
+    border-left: 3px solid var(--aco); padding-left: 16px; margin: 34px 0 22px; max-width: 620px; }
+  .epigrafe span { display: block; margin-top: 8px; font-size: 13px; color: var(--cinza-morto); }
+</style>

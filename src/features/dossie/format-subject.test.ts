@@ -21,3 +21,9 @@ describe('formatSubject', () => {
     expect(f.localizacao).toBe('—');
   });
 });
+
+describe('formatSubject (EN)', () => {
+  it('placeholder em inglês', () => {
+    expect(formatSubject(null, 'en').nome).toBe('SUBJECT No. 0001');
+  });
+});
