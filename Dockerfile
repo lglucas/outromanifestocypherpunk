@@ -5,7 +5,7 @@ WORKDIR /app
 # Bancos geo-IP (DB-IP Lite, licença CC) — baixados no build (gitignored localmente).
 # Camada própria p/ cache; tenta o mês corrente e cai pro anterior.
 RUN apk add --no-cache curl && mkdir -p data && \
-    for M in 2026-06 2026-05; do \
+    for M in "$(date -u +%Y-%m)" "$(date -u -d "@$(( $(date +%s) - 2678400 ))" +%Y-%m)"; do \
       if curl -fsSL -o data/dbip-city-lite.mmdb.gz "https://download.db-ip.com/free/dbip-city-lite-$M.mmdb.gz"; then \
         curl -fsSL -o data/dbip-asn-lite.mmdb.gz "https://download.db-ip.com/free/dbip-asn-lite-$M.mmdb.gz" && break; \
       fi; \
